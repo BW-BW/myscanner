@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MyPage1 extends StatefulWidget {
   const MyPage1({super.key});
@@ -9,6 +10,8 @@ class MyPage1 extends StatefulWidget {
 
 class MyPage1State extends State<MyPage1> {
   String _scanBarcode = 'Unknown';
+  String _email = "";
+  String _password = "";
 
   Future<void> scanQR() async {
     String barcodeScanRes;
@@ -25,6 +28,12 @@ class MyPage1State extends State<MyPage1> {
     });
   }
 
+  void register() async {
+    await Supabase.instance.client
+        .from('userCreds')
+        .insert({'username': _email});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,11 +42,21 @@ class MyPage1State extends State<MyPage1> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Page 1'),
+            const Text('Register'),
+            TextFormField(
+              onChanged: (value) {
+                _email = value;
+              },
+            ),
+            TextFormField(
+              onChanged: (value) {
+                _password = value;
+              },
+            ),
             ElevatedButton(
-                onPressed: scanQR, child: const Text('Start QR scan')),
-            Text('Scan result : $_scanBarcode\n',
-                style: const TextStyle(fontSize: 20)),
+              onPressed: register,
+              child: const Text('Register'),
+            ),
           ],
         ),
       ),
