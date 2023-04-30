@@ -13,25 +13,10 @@ class MyPage1State extends State<MyPage1> {
   String _email = "";
   String _password = "";
 
-  Future<void> scanQR() async {
-    String barcodeScanRes;
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.QR);
-    } catch (e) {
-      barcodeScanRes = 'Failed to get platform version.';
-    }
-    if (!mounted) return;
-
-    setState(() {
-      _scanBarcode = barcodeScanRes;
-    });
-  }
-
   void register() async {
     await Supabase.instance.client
         .from('userCreds')
-        .insert({'username': _email});
+        .insert({'username': _email, 'password': _password});
   }
 
   @override

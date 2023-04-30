@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'pages/page1.dart';
-import 'pages/page2.dart';
-import 'pages/page3.dart';
+import 'package:myscanner/register.dart';
+import 'package:myscanner/userpages/usermain.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-//void main() => runApp(const MyApp());
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,57 +20,92 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Scaffold Demo',
+      routes: {
+        //'/': (context) => MyLogin(),
+        '/user': (context) => const MyHomePage(),
+        '/register': (context) => const MyRegister()
+      },
+      title: 'Login Screen',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: const MyLogin(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class MyLogin extends StatefulWidget {
+  const MyLogin({super.key});
   @override
-  MyHomePageState createState() => MyHomePageState();
+  MyLoginState createState() => MyLoginState();
 }
 
-class MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0;
-  static List<Widget> pageszz = <Widget>[
-    const MyPage1(),
-    const MyPage2(),
-    const MyPage3(),
-  ];
+class MyLoginState extends State<MyLogin> {
+  String _email = "";
+  String _password = "";
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  void register() async {
+    await Supabase.instance.client
+        .from('userCreds')
+        .insert({'username': _email, 'password': _password});
+  }
+
+  void login() async {
+    final data = await Supabase.instance.client
+        .from('userCreds')
+        .select('username, password')
+        .eq('username', _email)
+        .eq('password', _password);
+
+    if (data.isEmpty) {
+      print('data not found');
+      // Navigator.of(context)
+      //     .pushNamedAndRemoveUntil("/register", (route) => false);
+    } else {
+      print(data);
+      //throw a new screen here
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pushNamedAndRemoveUntil("/user", (route) => false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pageszz[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Scan QR',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Scan Barcode',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Count',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        onTap: _onItemTapped,
+      appBar: AppBar(
+        leading: null,
+        title: const Text('Login'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text('Login'),
+            TextFormField(
+              onChanged: (value) {
+                _email = value;
+              },
+            ),
+            TextFormField(
+              onChanged: (value) {
+                _password = value;
+              },
+            ),
+            ElevatedButton(
+              onPressed: login,
+              child: const Text('Login'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyRegister()),
+                );
+              },
+              child: const Text('Create Account'),
+            ),
+          ],
+        ),
       ),
     );
   }
