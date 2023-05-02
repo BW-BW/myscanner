@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myscanner/register.dart';
 import 'package:myscanner/userpages/usermain.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:myscanner/global/global.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +45,14 @@ class MyLoginState extends State<MyLogin> {
   String _email = "";
   String _password = "";
 
+  void updateGlobalEmail(String value) {
+    currentEmailGlobal = value;
+  }
+
+  void updateGlobalPassword(String value) {
+    currentPasswordGlobal = value;
+  }
+
   void register() async {
     await Supabase.instance.client
         .from('userCreds')
@@ -62,8 +71,11 @@ class MyLoginState extends State<MyLogin> {
       // Navigator.of(context)
       //     .pushNamedAndRemoveUntil("/register", (route) => false);
     } else {
-      print(data);
-      //throw a new screen here
+      //print(data);
+      updateGlobalEmail(_email);
+      updateGlobalPassword(_password);
+      // print(currentEmailGlobal);
+      // print(currentPasswordGlobal);
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushNamedAndRemoveUntil("/user", (route) => false);
     }

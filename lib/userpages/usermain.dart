@@ -3,12 +3,17 @@ import 'pageAccount.dart';
 import 'pageSearch.dart';
 import 'pageHistory.dart';
 import 'pageScan.dart';
+import 'package:myscanner/main.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        //'/': (context) => MyLogin(),
+        '/login': (context) => const MyLogin(),
+      },
       title: 'Flutter Scaffold Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -50,17 +55,17 @@ class MyHomePageState extends State<MyHomePage> {
               label: 'Search',
               backgroundColor: Color.fromARGB(255, 2, 1, 0)),
           BottomNavigationBarItem(
-            icon: Icon(Icons.autorenew),
-            label: 'History',
-          ),
+              icon: Icon(Icons.autorenew),
+              label: 'History',
+              backgroundColor: Color.fromARGB(255, 2, 1, 0)),
           BottomNavigationBarItem(
-            icon: Icon(Icons.wifi_tethering),
-            label: 'Scan',
-          ),
+              icon: Icon(Icons.wifi_tethering),
+              label: 'Scan',
+              backgroundColor: Color.fromARGB(255, 2, 1, 0)),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'MyAccount',
-          )
+              icon: Icon(Icons.person),
+              label: 'MyAccount',
+              backgroundColor: Color.fromARGB(255, 2, 1, 0)),
         ],
         currentIndex: _selectedIndex,
         unselectedItemColor: const Color.fromARGB(255, 2, 125, 31),
