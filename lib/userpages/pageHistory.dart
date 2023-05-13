@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:myscanner/global/global.dart';
 
 class MyPage2 extends StatefulWidget {
   const MyPage2({super.key});
@@ -8,39 +8,35 @@ class MyPage2 extends StatefulWidget {
 }
 
 class MyPage2State extends State<MyPage2> {
-  String _scanBarcode = 'Unknown';
+  int _counter = 0;
+  final String _currentPassword = currentPasswordGlobal;
 
-  Future<void> scanBarcodeNormal() async {
-    String barcodeScanRes;
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-    } catch (e) {
-      barcodeScanRes = 'Failed to get platform version.';
-    }
-    if (!mounted) return;
-
+  void _incrementCounter() {
     setState(() {
-      _scanBarcode = barcodeScanRes;
+      _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Page 2')),
+      appBar: AppBar(title: const Text('Page 3')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Page 2'),
-            ElevatedButton(
-                onPressed: scanBarcodeNormal,
-                child: const Text('Start Barcode scan')),
-            Text('Scan result : $_scanBarcode\n',
-                style: const TextStyle(fontSize: 20)),
+            const Text('You have pushed the button this many times:'),
+            Text(
+              '$_currentPassword',
+              style: Theme.of(context).textTheme.headline4,
+            ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
       ),
     );
   }

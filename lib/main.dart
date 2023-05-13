@@ -88,35 +88,57 @@ class MyLoginState extends State<MyLogin> {
         leading: null,
         title: const Text('Login'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('Login'),
-            TextFormField(
-              onChanged: (value) {
-                _email = value;
-              },
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 100),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text('Login'),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.cyan,
+                    borderRadius: BorderRadius.circular(29.5),
+                  ),
+                  child: TextFormField(
+                    onChanged: (value) {
+                      _email = value;
+                    },
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.cyan,
+                    borderRadius: BorderRadius.circular(29.5),
+                  ),
+                  child: TextFormField(
+                    onChanged: (value) {
+                      _password = value;
+                    },
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: login,
+                  child: const Text('Login'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MyRegister()),
+                    );
+                  },
+                  child: const Text('Create Account'),
+                ),
+              ],
             ),
-            TextFormField(
-              onChanged: (value) {
-                _password = value;
-              },
-            ),
-            ElevatedButton(
-              onPressed: login,
-              child: const Text('Login'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MyRegister()),
-                );
-              },
-              child: const Text('Create Account'),
-            ),
-          ],
+          ),
         ),
       ),
     );
