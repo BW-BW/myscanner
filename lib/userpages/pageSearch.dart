@@ -22,7 +22,7 @@ class MyPage1State extends State<MyPage1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Page 1')),
+      appBar: AppBar(title: const Text('Search')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

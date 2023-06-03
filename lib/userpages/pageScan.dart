@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:myscanner/userpages/PageFound.dart';
+import 'package:myscanner/userpages/pageNotFound.dart';
 
 class MyPage3 extends StatefulWidget {
   const MyPage3({super.key});
@@ -30,17 +32,32 @@ class MyPage3State extends State<MyPage3> {
     setState(() {
       _scanBarcode = barcodeScanRes;
     });
+
+    if (_scanBarcode == '8690632060743') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PageFound(onPagePopped: scanBarcodeNormal)),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                PageNotFound(onPagePopped: scanBarcodeNormal)),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Page 2')),
+      appBar: AppBar(title: const Text('Scan')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Page 2'),
+            const Text('Scan'),
             ElevatedButton(
               onPressed: scanBarcodeNormal,
               child: const Text('Start Barcode scan'),
