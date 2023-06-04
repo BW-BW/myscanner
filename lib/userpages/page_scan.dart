@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:myscanner/userpages/PageFound.dart';
-import 'package:myscanner/userpages/pageNotFound.dart';
+import 'package:myscanner/userpages/page_found.dart';
+import 'package:myscanner/userpages/page_not_found.dart';
 
 class MyPage3 extends StatefulWidget {
   const MyPage3({super.key});

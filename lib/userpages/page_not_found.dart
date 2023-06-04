@@ -46,9 +46,10 @@ class PageNotFoundState extends State<PageNotFound> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Lottie.network(
-                  "https://assets10.lottiefiles.com/packages/lf20_mxuufmel.json",
+                  //"https://assets10.lottiefiles.com/packages/lf20_mxuufmel.json",
+                  "https://assets9.lottiefiles.com/packages/lf20_tmsiddoc.json",
                   height: 200,
-                  width: 200,
+                  width: 300,
                   fit: BoxFit.cover,
                   repeat: true,
                   animate: true,

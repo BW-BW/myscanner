@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'pageAccount.dart';
-import 'pageSearch.dart';
-import 'pageHistory.dart';
-import 'pageScan.dart';
+import 'page_account.dart';
+import 'page_search.dart';
+import 'page_history.dart';
+import 'page_scan.dart';
 import 'package:myscanner/main.dart';
 
 class MyApp extends StatelessWidget {
