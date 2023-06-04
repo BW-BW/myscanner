@@ -28,7 +28,7 @@ class MyPage4State extends State<MyPage4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffffffff),
+      backgroundColor: Color.fromARGB(255, 207, 67, 67),
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Align(

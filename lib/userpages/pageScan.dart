@@ -36,15 +36,13 @@ class MyPage3State extends State<MyPage3> {
     if (_scanBarcode == '8690632060743') {
       Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => PageFound(onPagePopped: scanBarcodeNormal)),
+        MaterialPageRoute(builder: (context) => const PageFound()),
       );
+    } else if (_scanBarcode == '-1') {
     } else {
       Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) =>
-                PageNotFound(onPagePopped: scanBarcodeNormal)),
+        MaterialPageRoute(builder: (context) => const PageNotFound()),
       );
     }
   }
