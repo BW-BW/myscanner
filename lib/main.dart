@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myscanner/register.dart';
+import 'package:myscanner/userpages/page_account.dart';
 import 'package:myscanner/userpages/usermain.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:myscanner/global/global.dart';
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
         //'/': (context) => MyLogin(),
         '/user': (context) => const MyHomePage(),
         '/register': (context) => const MyRegister(),
-        '/login': (context) => const MyLogin()
+        '/login': (context) => const MyLogin(),
+        '/mypage4': (context) => MyPage4()
       },
       title: 'Login Screen',
       theme: ThemeData(
@@ -48,12 +50,14 @@ class MyLoginState extends State<MyLogin> {
   String _email = "";
   String _password = "";
 
-  void updateGlobalEmail(String value) {
-    currentEmailGlobal = value;
-  }
-
-  void updateGlobalPassword(String value) {
-    currentPasswordGlobal = value;
+  void updateAllGlobal(String email, String password, String name,
+      String gender, String age, String url) {
+    currentEmailGlobal = email;
+    currentPasswordGlobal = password;
+    currentNameGlobal = name;
+    currentGenderGlobal = gender;
+    currentAgeGlobal = age;
+    currentUrlGlobal = url;
   }
 
   void register() async {
@@ -65,7 +69,7 @@ class MyLoginState extends State<MyLogin> {
   void login() async {
     final data = await Supabase.instance.client
         .from('userCreds')
-        .select('username, password')
+        .select()
         .eq('username', _email)
         .eq('password', _password);
 
@@ -74,81 +78,21 @@ class MyLoginState extends State<MyLogin> {
       // Navigator.of(context)
       //     .pushNamedAndRemoveUntil("/register", (route) => false);
     } else {
-      //print(data);
-      updateGlobalEmail(_email);
-      updateGlobalPassword(_password);
+      print(data);
+      updateAllGlobal(_email, _password, data[0]['full_name'],
+          data[0]['gender'], data[0]['age'].toString(), data[0]['profile_url']);
       // print(currentEmailGlobal);
+      // print('asdas');
       // print(currentPasswordGlobal);
+      // print(currentNameGlobal);
+      // print(currentGenderGlobal);
+      // print(currentAgeGlobal);
+      // print(currentUrlGlobal);
+
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushNamedAndRemoveUntil("/user", (route) => false);
     }
   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         leading: null,
-//         title: const Text('Login'),
-//       ),
-//       body: SingleChildScrollView(
-//         child: Center(
-//           child: Padding(
-//             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 100),
-//             child: Column(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: <Widget>[
-//                 const Text('Login'),
-//                 Container(
-//                   margin: EdgeInsets.symmetric(vertical: 10),
-//                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-//                   decoration: BoxDecoration(
-//                     color: Colors.cyan,
-//                     borderRadius: BorderRadius.circular(29.5),
-//                   ),
-//                   child: TextFormField(
-//                     onChanged: (value) {
-//                       _email = value;
-//                     },
-//                   ),
-//                 ),
-//                 Container(
-//                   margin: EdgeInsets.symmetric(vertical: 10),
-//                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-//                   decoration: BoxDecoration(
-//                     color: Colors.cyan,
-//                     borderRadius: BorderRadius.circular(29.5),
-//                   ),
-//                   child: TextFormField(
-//                     onChanged: (value) {
-//                       _password = value;
-//                     },
-//                   ),
-//                 ),
-//                 ElevatedButton(
-//                   onPressed: login,
-//                   child: const Text('Login'),
-//                 ),
-//                 ElevatedButton(
-//                   onPressed: () {
-//                     Navigator.push(
-//                       context,
-//                       MaterialPageRoute(
-//                           builder: (context) => const MyRegister()),
-//                     );
-//                   },
-//                   child: const Text('Create Account'),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-  ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
 
   @override
   Widget build(BuildContext context) {
@@ -342,7 +286,7 @@ class MyLoginState extends State<MyLogin> {
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontStyle: FontStyle.normal,
-                                fontSize: 14,
+                                fontSize: 18,
                                 color: Color(0xff000000),
                               ),
                             ),
@@ -366,7 +310,7 @@ class MyLoginState extends State<MyLogin> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontStyle: FontStyle.normal,
-                                  fontSize: 12,
+                                  fontSize: 16,
                                   color: Color(0xff000000),
                                 ),
                               ),

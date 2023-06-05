@@ -3,25 +3,6 @@ import 'page_account.dart';
 import 'page_search.dart';
 import 'page_history.dart';
 import 'page_scan.dart';
-import 'package:myscanner/main.dart';
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       routes: {
-//         //'/': (context) => MyLogin(),
-//         '/login': (context) => const MyLogin(),
-//       },
-//       title: 'Flutter Scaffold Demo',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: const MyHomePage(),
-//     );
-//   }
-// }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});

@@ -119,7 +119,7 @@ class MyPage2State extends State<MyPage2> {
                         ///***If you have exported images you must have to copy those images in assets/images directory.
                         Image(
                       image: NetworkImage(
-                          "https://image.freepik.com/free-photo/side-view-doner-with-grilled-chicken-greens-lettuce-tomato-french-fries-table_141793-4881.jpg"),
+                          "https://hdjtokqgbkxfbgvvrbvw.supabase.co/storage/v1/object/public/product/36.jpg"),
                       height: 130,
                       width: 100,
                       fit: BoxFit.cover,
