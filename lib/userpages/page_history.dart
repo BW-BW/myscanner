@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myscanner/userpages/page_history_details.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserData {
@@ -15,7 +16,41 @@ class UserData {
   });
 }
 
+class ProductData {
+  final int barcode;
+  final String name;
+  final bool vegan;
+  final bool glutenfree;
+  final bool halal;
+  final String netto;
+  final String calorie;
+  final String fat;
+  final String protein;
+  final String carbo;
+  final String sodium;
+  final String sugar;
+  final String details;
+  final String imgurl;
+
+  ProductData(
+      {required this.barcode,
+      required this.name,
+      required this.vegan,
+      required this.glutenfree,
+      required this.halal,
+      required this.netto,
+      required this.calorie,
+      required this.fat,
+      required this.protein,
+      required this.carbo,
+      required this.sodium,
+      required this.sugar,
+      required this.details,
+      required this.imgurl});
+}
+
 List<UserData> userList = [];
+List<ProductData> productList = [];
 
 class MyPage2 extends StatefulWidget {
   const MyPage2({super.key});
@@ -30,33 +65,42 @@ class MyPage2State extends State<MyPage2> {
     print('object');
     //print(userList);
     fetchData(); // Call a method to fetch the data
-    print(userList);
+    print(productList);
     // ... existing code ...
   }
 
   void fetchData() async {
-    final response = await Supabase.instance.client
-        .from('userCreds')
-        .select('id, username, password');
+    final response =
+        await Supabase.instance.client.from('detailsTable').select();
 
-    print(response);
+    //print(response);
 
     final rows = response as List<dynamic>;
 
-    print('abc');
+    //print('abc');
 
-    //print(rows);
+    print(rows);
 
-    userList = rows.map((row) {
-      return UserData(
-        id: row['id'] as int,
-        name: row['username'] as String,
-        password: row['password'] as String,
-      );
+    productList = rows.map((row) {
+      return ProductData(
+          barcode: row['barcode'] as int,
+          name: row['name'] as String,
+          vegan: row['vegan'] as bool,
+          glutenfree: row['gluten_free'] as bool,
+          halal: row['halal'] as bool,
+          netto: row['netto'] as String,
+          calorie: row['calorie_kcal'] as String,
+          fat: row['fat_g'] as String,
+          protein: row['protein_g'] as String,
+          carbo: row['carbo_g'] as String,
+          sodium: row['sodium_mg'] as String,
+          sugar: row['sugar_g'] as String,
+          details: row['details'] as String,
+          imgurl: row['image_url'] as String);
     }).toList();
 
     print('object zz');
-    print(userList);
+    print(productList);
 
     setState(() {}); // Refresh the UI with the fetched data
   }
@@ -89,9 +133,9 @@ class MyPage2State extends State<MyPage2> {
         padding: EdgeInsets.all(8),
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),
-        itemCount: userList.length, // Set the number of items in the list
+        itemCount: productList.length, // Set the number of items in the list
         itemBuilder: (BuildContext context, int index) {
-          final userData = userList[
+          final productData = productList[
               index]; // Retrieve the UserData object for the current index
           return Card(
             margin: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
@@ -104,6 +148,13 @@ class MyPage2State extends State<MyPage2> {
             child: InkWell(
               onTap: () {
                 print("HistoryTapped");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        DetailsScreen(productData: productData),
+                  ),
+                );
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -118,8 +169,7 @@ class MyPage2State extends State<MyPage2> {
 
                         ///***If you have exported images you must have to copy those images in assets/images directory.
                         Image(
-                      image: NetworkImage(
-                          "https://hdjtokqgbkxfbgvvrbvw.supabase.co/storage/v1/object/public/product/36.jpg"),
+                      image: NetworkImage(productData.imgurl),
                       height: 130,
                       width: 100,
                       fit: BoxFit.cover,
@@ -135,7 +185,7 @@ class MyPage2State extends State<MyPage2> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Text(
-                            userData.name,
+                            productData.name,
                             textAlign: TextAlign.start,
                             maxLines: 1,
                             overflow: TextOverflow.clip,
@@ -149,7 +199,7 @@ class MyPage2State extends State<MyPage2> {
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
                             child: Text(
-                              userData.id.toString(),
+                              productData.netto,
                               textAlign: TextAlign.start,
                               maxLines: 1,
                               overflow: TextOverflow.clip,
@@ -164,7 +214,7 @@ class MyPage2State extends State<MyPage2> {
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
                             child: Text(
-                              userData.password,
+                              productData.barcode.toString(),
                               textAlign: TextAlign.start,
                               maxLines: 2,
                               overflow: TextOverflow.clip,
@@ -179,7 +229,7 @@ class MyPage2State extends State<MyPage2> {
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                             child: Text(
-                              "userData.suspended.toString()",
+                              productData.details,
                               textAlign: TextAlign.start,
                               maxLines: 2,
                               overflow: TextOverflow.clip,
