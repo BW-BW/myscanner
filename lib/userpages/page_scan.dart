@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:myscanner/global/global.dart';
 import 'package:myscanner/userpages/page_history.dart';
 import 'package:myscanner/userpages/page_history_details.dart';
 import 'package:myscanner/userpages/page_not_found.dart';
@@ -45,6 +46,7 @@ class MyPage3State extends State<MyPage3> {
 
     if (data.isEmpty && _scanBarcode == '-1') {
     } else if (data.isEmpty && _scanBarcode != '-1') {
+      currentScannedGlobal = _scanBarcode;
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const PageNotFound()),

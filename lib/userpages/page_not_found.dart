@@ -1,35 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:lottie/lottie.dart';
+import 'package:myscanner/userpages/page_add_product.dart';
+
+// ignore_for_file: unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 class PageNotFound extends StatefulWidget {
   const PageNotFound({super.key});
-
-  // final VoidCallback onPagePopped;
-  // const PageNotFound({Key? key, required this.onPagePopped}) : super(key: key);
 
   @override
   PageNotFoundState createState() => PageNotFoundState();
 }
 
 class PageNotFoundState extends State<PageNotFound> {
-  // @override
-  // void initState() {
-  //   super.initState();
+  void redirect() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AddProduct()),
+    );
+  }
 
-  //   SchedulerBinding.instance.addPostFrameCallback((_) {
-  //     final modalRoute = ModalRoute.of(context);
-  //     if (modalRoute != null) {
-  //       modalRoute.addScopedWillPopCallback(() {
-  //         widget.onPagePopped();
-  //         return Future.value(
-  //             true); // Return true to allow the page to be popped
-  //       });
-  //     }
-  //   });
-  // }
-
-  ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +35,6 @@ class PageNotFoundState extends State<PageNotFound> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Lottie.network(
-                  //"https://assets10.lottiefiles.com/packages/lf20_mxuufmel.json",
                   "https://assets9.lottiefiles.com/packages/lf20_tmsiddoc.json",
                   height: 200,
                   width: 300,
@@ -82,13 +70,15 @@ class PageNotFoundState extends State<PageNotFound> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 50, 0, 16),
                   child: MaterialButton(
-                    onPressed: () {},
+                    onPressed: redirect,
                     color: Color(0xff3a57e8),
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
+                    textColor: Color(0xffffffff),
+                    height: 45,
                     child: Text(
                       "Be The First To add Data",
                       style: TextStyle(
@@ -97,8 +87,6 @@ class PageNotFoundState extends State<PageNotFound> {
                         fontStyle: FontStyle.normal,
                       ),
                     ),
-                    textColor: Color(0xffffffff),
-                    height: 45,
                   ),
                 ),
               ],

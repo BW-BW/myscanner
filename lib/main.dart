@@ -114,7 +114,7 @@ class MyLoginState extends State<MyLogin> {
             ),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(20, 40, 20, 20),
+            margin: EdgeInsets.fromLTRB(20, 100, 20, 60),
             padding: EdgeInsets.all(0),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,

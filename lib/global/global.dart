@@ -4,3 +4,4 @@ String currentAgeGlobal = 'age';
 String currentUrlGlobal = 'url';
 String currentEmailGlobal = 'em';
 String currentPasswordGlobal = 'pw';
+String currentScannedGlobal = 'bar';
