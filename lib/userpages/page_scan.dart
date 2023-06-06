@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:myscanner/userpages/page_found.dart';
+import 'package:myscanner/userpages/page_history.dart';
+import 'package:myscanner/userpages/page_history_details.dart';
 import 'package:myscanner/userpages/page_not_found.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+// ignore_for_file: use_build_context_synchronously
 
 class MyPage3 extends StatefulWidget {
   const MyPage3({super.key});
@@ -33,16 +37,40 @@ class MyPage3State extends State<MyPage3> {
       _scanBarcode = barcodeScanRes;
     });
 
-    if (_scanBarcode == '8690632060743') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const PageFound()),
-      );
-    } else if (_scanBarcode == '-1') {
-    } else {
+    //should be returning 1 line only
+    final data = await Supabase.instance.client
+        .from('detailsTable')
+        .select()
+        .eq('barcode', _scanBarcode);
+
+    if (data.isEmpty && _scanBarcode == '-1') {
+    } else if (data.isEmpty && _scanBarcode != '-1') {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const PageNotFound()),
+      );
+    } else {
+      ProductData productData = ProductData(
+          barcode: data[0]['barcode'],
+          name: data[0]['name'],
+          vegan: data[0]['vegan'],
+          glutenfree: data[0]['gluten_free'],
+          halal: data[0]['halal'],
+          netto: data[0]['netto'],
+          calorie: data[0]['calorie_kcal'],
+          fat: data[0]['fat_g'],
+          protein: data[0]['protein_g'],
+          carbo: data[0]['carbo_g'],
+          sodium: data[0]['sodium_mg'],
+          sugar: data[0]['sugar_g'],
+          details: data[0]['details'],
+          imgurl: data[0]['image_url']);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailsScreen(productData: productData),
+        ),
       );
     }
   }

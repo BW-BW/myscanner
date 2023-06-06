@@ -115,24 +115,24 @@ class MyPage4State extends State<MyPage4> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   SizedBox(
-                    height: 200,
-                    width: 200,
+                    height: 300,
+                    width: 300,
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
                         Lottie.network(
                           "https://assets8.lottiefiles.com/packages/lf20_8ydmsved.json",
-                          height: 200,
-                          width: 200,
+                          height: 300,
+                          width: 300,
                           fit: BoxFit.cover,
                           repeat: true,
                           animate: true,
                         ),
                         Align(
-                          alignment: Alignment(0.0, 0.1),
+                          alignment: Alignment(0.0, 0.2),
                           child: Container(
-                            height: 100,
-                            width: 100,
+                            height: 200,
+                            width: 200,
                             clipBehavior: Clip.antiAlias,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,

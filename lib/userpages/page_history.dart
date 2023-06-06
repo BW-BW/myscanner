@@ -2,20 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:myscanner/userpages/page_history_details.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class UserData {
-  final int id;
-  final String name;
-  final String password;
-  //final int suspended;
-
-  UserData({
-    required this.id,
-    required this.name,
-    required this.password,
-    //required this.suspended
-  });
-}
-
 class ProductData {
   final int barcode;
   final String name;
@@ -49,7 +35,6 @@ class ProductData {
       required this.imgurl});
 }
 
-List<UserData> userList = [];
 List<ProductData> productList = [];
 
 class MyPage2 extends StatefulWidget {
@@ -62,24 +47,14 @@ class MyPage2State extends State<MyPage2> {
   @override
   void initState() {
     super.initState();
-    print('object');
-    //print(userList);
     fetchData(); // Call a method to fetch the data
-    print(productList);
-    // ... existing code ...
   }
 
   void fetchData() async {
     final response =
         await Supabase.instance.client.from('detailsTable').select();
 
-    //print(response);
-
     final rows = response as List<dynamic>;
-
-    //print('abc');
-
-    print(rows);
 
     productList = rows.map((row) {
       return ProductData(
@@ -98,9 +73,6 @@ class MyPage2State extends State<MyPage2> {
           details: row['details'] as String,
           imgurl: row['image_url'] as String);
     }).toList();
-
-    print('object zz');
-    print(productList);
 
     setState(() {}); // Refresh the UI with the fetched data
   }
