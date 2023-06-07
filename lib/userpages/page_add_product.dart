@@ -1,9 +1,10 @@
 // ignore_for_file: sort_child_properties_last
-
 import 'package:flutter/material.dart';
 import 'package:myscanner/global/global.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/services.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:io';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({super.key});
@@ -12,12 +13,10 @@ class AddProduct extends StatefulWidget {
 }
 
 class AddProductState extends State<AddProduct> {
-  // String _email = "";
-  // String _password = "";
-  // String _confpassword = "";
-  // String _fullname = "";
-  // String _gender = "TRUE";
-  // int _age = 0;
+  static String supabaseURL = "https://hdjtokqgbkxfbgvvrbvw.supabase.co";
+  static String supabaseKey =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkanRva3FnYmt4ZmJndnZyYnZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI4Mzk5OTIsImV4cCI6MTk5ODQxNTk5Mn0.J5zMy7DRe4CmRd5p31iOcxITF_3TEcmMT3qdAPhavwY";
+  final SupabaseClient client = SupabaseClient(supabaseURL, supabaseKey);
 
   int barcode = int.parse(currentScannedGlobal);
   String name = '';
@@ -32,7 +31,7 @@ class AddProductState extends State<AddProduct> {
   String sodium = "";
   String sugar = "";
   String details = "";
-  String imgurl = "a";
+  String imgurl = "";
 
   TextEditingController _barcodeController = TextEditingController();
   TextEditingController _nameController = TextEditingController();
@@ -57,7 +56,8 @@ class AddProductState extends State<AddProduct> {
         sodium == "" ||
         sugar == "" ||
         details == "" ||
-        imgurl == "") {
+        imgurl == "" ||
+        currentFileReviewGlobal == "") {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -106,6 +106,51 @@ class AddProductState extends State<AddProduct> {
         'details': details,
         'image_url': imgurl,
       });
+    }
+  }
+
+  void addPhoto() async {
+    var pickedFile = await FilePicker.platform.pickFiles(allowMultiple: false);
+    if (pickedFile != null) {
+      final file = File(pickedFile.files.first.path!);
+      await client.storage
+          .from("review")
+          .upload(pickedFile.files.first.name, file)
+          .then((value) {});
+      final String publicUrl = client.storage
+          .from('review')
+          .getPublicUrl(pickedFile.files.first.name);
+      print(publicUrl);
+
+      // await Supabase.instance.client
+      //     .from('userCreds')
+      //     .update({'profile_url': publicUrl})
+      //     .eq('username', currentEmailGlobal)
+      //     .eq('password', currentPasswordGlobal);
+
+      currentUrlReviewGlobal = publicUrl;
+      imgurl = publicUrl;
+      currentFileReviewGlobal = pickedFile.files.first.name;
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Congratulations'),
+            content: Text('You have successfully update your profile'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      // Navigator.of(context)
+      //     .pushNamedAndRemoveUntil('/mypage4', (route) => false);
     }
   }
 
@@ -169,8 +214,53 @@ class AddProductState extends State<AddProduct> {
                   ),
                 ),
               ),
+              Align(
+                alignment: Alignment.center,
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: addPhoto,
+                      child: Container(
+                        alignment: Alignment.center,
+                        margin:
+                            EdgeInsets.symmetric(vertical: 40, horizontal: 0),
+                        padding: EdgeInsets.all(0),
+                        width: 240,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Color(0x273a57e8),
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(24.0),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              child: Text(
+                                "Choose Product Photo",
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16,
+                                  color: Color(0xff3a57e8),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Text('Choosen File Name: ' '$currentFileReviewGlobal')
+                  ],
+                ),
+              ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
