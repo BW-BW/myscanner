@@ -106,7 +106,29 @@ class AddProductState extends State<AddProduct> {
         'details': details,
         'image_url': imgurl,
       });
+      successMessage();
     }
+  }
+
+  void successMessage() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Congrats'),
+          content: Text('You have successfully add your data for review'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+    Navigator.of(context).pop();
   }
 
   void addPhoto() async {
@@ -396,8 +418,8 @@ class AddProductState extends State<AddProduct> {
                         color: Color(0xff000000),
                       ),
                       inputFormatters: [
-                        FilteringTextInputFormatter
-                            .digitsOnly, // Allow only numeric input
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d{0,2}')),
                       ],
                       keyboardType: TextInputType
                           .number, // Set the keyboard type to number
@@ -460,8 +482,8 @@ class AddProductState extends State<AddProduct> {
                         color: Color(0xff000000),
                       ),
                       inputFormatters: [
-                        FilteringTextInputFormatter
-                            .digitsOnly, // Allow only numeric input
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d{0,2}')),
                       ],
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -523,8 +545,8 @@ class AddProductState extends State<AddProduct> {
                         color: Color(0xff000000),
                       ),
                       inputFormatters: [
-                        FilteringTextInputFormatter
-                            .digitsOnly, // Allow only numeric input
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d{0,2}')),
                       ],
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -586,8 +608,8 @@ class AddProductState extends State<AddProduct> {
                         color: Color(0xff000000),
                       ),
                       inputFormatters: [
-                        FilteringTextInputFormatter
-                            .digitsOnly, // Allow only numeric input
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d{0,2}')),
                       ],
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -649,8 +671,8 @@ class AddProductState extends State<AddProduct> {
                         color: Color(0xff000000),
                       ),
                       inputFormatters: [
-                        FilteringTextInputFormatter
-                            .digitsOnly, // Allow only numeric input
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d{0,2}')),
                       ],
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -712,8 +734,8 @@ class AddProductState extends State<AddProduct> {
                         color: Color(0xff000000),
                       ),
                       inputFormatters: [
-                        FilteringTextInputFormatter
-                            .digitsOnly, // Allow only numeric input
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d{0,2}')),
                       ],
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -775,8 +797,8 @@ class AddProductState extends State<AddProduct> {
                         color: Color(0xff000000),
                       ),
                       inputFormatters: [
-                        FilteringTextInputFormatter
-                            .digitsOnly, // Allow only numeric input
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d{0,2}')),
                       ],
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(

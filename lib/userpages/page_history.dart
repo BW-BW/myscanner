@@ -51,8 +51,10 @@ class MyPage2State extends State<MyPage2> {
   }
 
   void fetchData() async {
-    final response =
-        await Supabase.instance.client.from('detailsTable').select();
+    final response = await Supabase.instance.client
+        .from('detailsTable')
+        .select()
+        .ilike('name', '%indomie%');
 
     final rows = response as List<dynamic>;
 

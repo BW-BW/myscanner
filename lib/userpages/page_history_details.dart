@@ -30,6 +30,16 @@ class DetailsScreen extends StatelessWidget {
             color: Color(0xff000000),
           ),
         ),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: Color(0xff212435),
+            size: 24,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
