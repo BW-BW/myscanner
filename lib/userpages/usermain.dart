@@ -32,11 +32,11 @@ class MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.youtube_searched_for),
+              icon: Icon(Icons.search),
               label: 'Search',
               backgroundColor: Color.fromARGB(255, 2, 1, 0)),
           BottomNavigationBarItem(
-              icon: Icon(Icons.autorenew),
+              icon: Icon(Icons.history),
               label: 'History',
               backgroundColor: Color.fromARGB(255, 2, 1, 0)),
           BottomNavigationBarItem(
@@ -45,12 +45,12 @@ class MyHomePageState extends State<MyHomePage> {
               backgroundColor: Color.fromARGB(255, 2, 1, 0)),
           BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              label: 'MyAccount',
+              label: 'My Account',
               backgroundColor: Color.fromARGB(255, 2, 1, 0)),
         ],
         currentIndex: _selectedIndex,
-        unselectedItemColor: const Color.fromARGB(255, 2, 125, 31),
-        selectedItemColor: const Color.fromARGB(255, 189, 166, 15),
+        unselectedItemColor: Color.fromARGB(159, 55, 224, 204),
+        selectedItemColor: const Color(0xff3a57e8),
         onTap: _onItemTapped,
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myscanner/global/global.dart';
 import 'package:myscanner/userpages/page_history_details.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -51,14 +52,63 @@ class MyPage2State extends State<MyPage2> {
   }
 
   void fetchData() async {
-    final response = await Supabase.instance.client
-        .from('detailsTable')
+    final detailsTable =
+        await Supabase.instance.client.from('detailsTable').select();
+
+    final historyTable = await Supabase.instance.client
+        .from('historyTable')
         .select()
-        .ilike('name', '%indomie%');
+        .eq('user_id', currentIdGlobal);
 
-    final rows = response as List<dynamic>;
+    print(detailsTable);
+    final rowsDet = detailsTable as List<dynamic>;
+    final rowsHist = historyTable as List<dynamic>;
 
-    productList = rows.map((row) {
+    final joinedData = <Map<String, dynamic>>[];
+    for (final rowsHist in rowsHist) {
+      final barcodes = rowsHist['item_code'];
+      final userId = rowsHist['user_id'];
+
+      final matchingTable = rowsDet.firstWhere(
+          (rowsDet) => rowsDet['barcode'] == barcodes,
+          orElse: () => null);
+
+      if (matchingTable != null) {
+        final nameJoin = matchingTable['name'];
+        final veganJoin = matchingTable['vegan'];
+        final glutenfreeJoin = matchingTable['gluten_free'];
+        final detailsJoin = matchingTable['details'];
+        final halalJoin = matchingTable['halal'];
+        final calorieJoin = matchingTable['calorie_kcal'];
+        final fatJoin = matchingTable['fat_g'];
+        final proteinJoin = matchingTable['protein_g'];
+        final carboJoin = matchingTable['carbo_g'];
+        final sodiumJoin = matchingTable['sodium_mg'];
+        final sugarJoin = matchingTable['sugar_g'];
+        final imageJoin = matchingTable['image_url'];
+        final nettoJoin = matchingTable['netto'];
+
+        joinedData.add({
+          'user_id': userId,
+          'barcode': barcodes,
+          'name': nameJoin,
+          'vegan': veganJoin,
+          'gluten_free': glutenfreeJoin,
+          'details': detailsJoin,
+          'halal': halalJoin,
+          'calorie_kcal': calorieJoin,
+          'fat_g': fatJoin,
+          'protein_g': proteinJoin,
+          'carbo_g': carboJoin,
+          'sodium_mg': sodiumJoin,
+          'sugar_g': sugarJoin,
+          'image_url': imageJoin,
+          'netto': nettoJoin,
+        });
+      }
+    }
+
+    productList = joinedData.map((row) {
       return ProductData(
           barcode: row['barcode'] as int,
           name: row['name'] as String,

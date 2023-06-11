@@ -68,6 +68,17 @@ class MyPage3State extends State<MyPage3> {
           details: data[0]['details'],
           imgurl: data[0]['image_url']);
 
+      final duplicate = await Supabase.instance.client
+          .from('historyTable')
+          .select()
+          .eq('user_id', currentIdGlobal)
+          .eq('item_code', data[0]['barcode']);
+
+      if (duplicate.isEmpty) {
+        await Supabase.instance.client.from('historyTable').insert(
+            {'user_id': currentIdGlobal, 'item_code': data[0]['barcode']});
+      }
+
       Navigator.push(
         context,
         MaterialPageRoute(

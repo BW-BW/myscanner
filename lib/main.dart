@@ -51,13 +51,14 @@ class MyLoginState extends State<MyLogin> {
   String _password = "";
 
   void updateAllGlobal(String email, String password, String name,
-      String gender, String age, String url) {
+      String gender, String age, String url, String id) {
     currentEmailGlobal = email;
     currentPasswordGlobal = password;
     currentNameGlobal = name;
     currentGenderGlobal = gender;
     currentAgeGlobal = age;
     currentUrlGlobal = url;
+    currentIdGlobal = id;
   }
 
   void register() async {
@@ -79,8 +80,14 @@ class MyLoginState extends State<MyLogin> {
       //     .pushNamedAndRemoveUntil("/register", (route) => false);
     } else {
       print(data);
-      updateAllGlobal(_email, _password, data[0]['full_name'],
-          data[0]['gender'], data[0]['age'].toString(), data[0]['profile_url']);
+      updateAllGlobal(
+          _email,
+          _password,
+          data[0]['full_name'],
+          data[0]['gender'],
+          data[0]['age'].toString(),
+          data[0]['profile_url'],
+          data[0]['id'].toString());
       // print(currentEmailGlobal);
       // print('asdas');
       // print(currentPasswordGlobal);

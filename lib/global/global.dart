@@ -1,3 +1,4 @@
+String currentIdGlobal = 'name';
 String currentNameGlobal = 'name';
 String currentGenderGlobal = 'gender';
 String currentAgeGlobal = 'age';
