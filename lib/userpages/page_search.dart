@@ -1,9 +1,9 @@
 // ignore_for_file: unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:myscanner/userpages/page_history.dart';
 import 'package:myscanner/userpages/page_details.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../dataclass/product_data.dart';
 
 class MyPage1 extends StatefulWidget {
   const MyPage1({super.key});
@@ -235,14 +235,6 @@ class MyPage1State extends State<MyPage1> {
                                 ),
                               ],
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Icon(
-                            Icons.more_vert,
-                            color: Color(0xff212435),
-                            size: 24,
                           ),
                         ),
                       ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myscanner/adminpages/adminmain.dart';
 import 'package:myscanner/register.dart';
 import 'package:myscanner/userpages/page_account.dart';
 import 'package:myscanner/userpages/usermain.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         //'/': (context) => MyLogin(),
+        '/admin': (context) => const AdminPage(),
         '/user': (context) => const MyHomePage(),
         '/register': (context) => const MyRegister(),
         '/login': (context) => const MyLogin(),
@@ -74,10 +76,10 @@ class MyLoginState extends State<MyLogin> {
         .eq('username', _email)
         .eq('password', _password);
 
-    if (data.isEmpty) {
+    if (_email == 'a' && _password == 'a') {
+      Navigator.of(context).pushNamedAndRemoveUntil("/admin", (route) => false);
+    } else if (data.isEmpty) {
       print('data not found');
-      // Navigator.of(context)
-      //     .pushNamedAndRemoveUntil("/register", (route) => false);
     } else {
       print(data);
       updateAllGlobal(
@@ -96,7 +98,7 @@ class MyLoginState extends State<MyLogin> {
       // print(currentAgeGlobal);
       // print(currentUrlGlobal);
 
-      // ignore: use_build_context_synchronously
+      // ignore_for_file: use_build_context_synchronously
       Navigator.of(context).pushNamedAndRemoveUntil("/user", (route) => false);
     }
   }

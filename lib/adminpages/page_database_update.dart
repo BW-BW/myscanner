@@ -1,28 +1,42 @@
-// ignore_for_file: sort_child_properties_last
-import 'package:flutter/material.dart';
-import 'package:myscanner/global/global.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter/services.dart';
-import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 
-class AddProduct extends StatefulWidget {
-  const AddProduct({super.key});
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:myscanner/adminpages/page_database.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../dataclass/product_data.dart';
+import '../global/global.dart';
+
+// ignore_for_file: unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
+
+class UpdatePage extends StatefulWidget {
+  final ProductData productData;
+
+  const UpdatePage({super.key, required this.productData});
+
   @override
-  AddProductState createState() => AddProductState();
+  UpdatePageState createState() => UpdatePageState();
 }
 
-class AddProductState extends State<AddProduct> {
+class UpdatePageState extends State<UpdatePage> {
+  @override
+  void initState() {
+    super.initState();
+    setText();
+  }
+
   static String supabaseURL = "https://hdjtokqgbkxfbgvvrbvw.supabase.co";
   static String supabaseKey =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkanRva3FnYmt4ZmJndnZyYnZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI4Mzk5OTIsImV4cCI6MTk5ODQxNTk5Mn0.J5zMy7DRe4CmRd5p31iOcxITF_3TEcmMT3qdAPhavwY";
   final SupabaseClient client = SupabaseClient(supabaseURL, supabaseKey);
 
-  int barcode = int.parse(currentScannedGlobal);
-  String name = '';
-  String vegan = 'true';
-  String glutenfree = 'true';
-  String halal = 'true';
+  late int barcode = widget.productData.barcode;
+  String name = "";
+  late String vegan = widget.productData.vegan.toString().toLowerCase();
+  late String glutenfree =
+      widget.productData.glutenfree.toString().toLowerCase();
+  late String halal = widget.productData.halal.toString().toLowerCase();
   String netto = "";
   String calorie = "";
   String fat = "";
@@ -44,6 +58,19 @@ class AddProductState extends State<AddProduct> {
   TextEditingController _sugarController = TextEditingController();
   TextEditingController _detailsController = TextEditingController();
   TextEditingController _imgurlController = TextEditingController();
+
+  void setText() {
+    _nameController.text = widget.productData.name;
+    _nettoController.text = widget.productData.netto;
+    _calorieController.text = widget.productData.calorie;
+    _fatController.text = widget.productData.fat;
+    _proteinController.text = widget.productData.protein;
+    _carboController.text = widget.productData.carbo;
+    _sodiumController.text = widget.productData.sodium;
+    _sugarController.text = widget.productData.sugar;
+    _detailsController.text = widget.productData.details;
+    _imgurlController.text = widget.productData.imgurl;
+  }
 
   void addData() async {
     if (barcode == 0 ||
@@ -316,7 +343,7 @@ class AddProductState extends State<AddProduct> {
                           borderSide:
                               BorderSide(color: Color(0xff3a57e8), width: 1),
                         ),
-                        hintText: "Add Name",
+                        hintText: 'Add Name',
                         hintStyle: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
@@ -901,7 +928,7 @@ class AddProductState extends State<AddProduct> {
                         child: Text("Vegan")),
                     DropdownButtonFormField<String>(
                       //controller: _fullNameController,
-                      value: vegan,
+                      value: vegan.toString(),
                       decoration: InputDecoration(
                         disabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -953,7 +980,7 @@ class AddProductState extends State<AddProduct> {
                         child: Text("Glutten Free")),
                     DropdownButtonFormField<String>(
                       //controller: _fullNameController,
-                      value: glutenfree,
+                      value: glutenfree.toString(),
                       decoration: InputDecoration(
                         disabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -997,7 +1024,7 @@ class AddProductState extends State<AddProduct> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: MaterialButton(
-                  onPressed: addData,
+                  onPressed: () {},
                   color: Color(0xff3a57e8),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -1008,7 +1035,30 @@ class AddProductState extends State<AddProduct> {
                   height: 45,
                   minWidth: MediaQuery.of(context).size.width,
                   child: Text(
-                    "Add For Review",
+                    "Update Data",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                child: MaterialButton(
+                  onPressed: () {},
+                  color: Color(0xff3a57e8),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  padding: EdgeInsets.all(16),
+                  textColor: Color(0xffffffff),
+                  height: 45,
+                  minWidth: MediaQuery.of(context).size.width,
+                  child: Text(
+                    "Cancel",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,

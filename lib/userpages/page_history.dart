@@ -2,39 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myscanner/global/global.dart';
 import 'package:myscanner/userpages/page_details.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-class ProductData {
-  final int barcode;
-  final String name;
-  final bool vegan;
-  final bool glutenfree;
-  final bool halal;
-  final String netto;
-  final String calorie;
-  final String fat;
-  final String protein;
-  final String carbo;
-  final String sodium;
-  final String sugar;
-  final String details;
-  final String imgurl;
-
-  ProductData(
-      {required this.barcode,
-      required this.name,
-      required this.vegan,
-      required this.glutenfree,
-      required this.halal,
-      required this.netto,
-      required this.calorie,
-      required this.fat,
-      required this.protein,
-      required this.carbo,
-      required this.sodium,
-      required this.sugar,
-      required this.details,
-      required this.imgurl});
-}
+import '../dataclass/product_data.dart';
 
 List<ProductData> productList = [];
 
@@ -267,14 +235,6 @@ class MyPage2State extends State<MyPage2> {
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Icon(
-                      Icons.more_vert,
-                      color: Color(0xff212435),
-                      size: 24,
                     ),
                   ),
                 ],
