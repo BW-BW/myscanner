@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:myscanner/userpages/page_history.dart';
-import 'package:myscanner/userpages/page_history_details.dart';
+import 'package:myscanner/userpages/page_details.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MyPage1 extends StatefulWidget {
@@ -17,7 +17,7 @@ class MyPage1State extends State<MyPage1> {
   @override
   void initState() {
     super.initState();
-    searchData('Wall'); // Call a method to fetch the data
+    searchData('Nabati'); // Call a method to fetch the data
   }
 
   void searchData(String search) async {

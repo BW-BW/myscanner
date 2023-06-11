@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:myscanner/global/global.dart';
 import 'package:myscanner/userpages/page_history.dart';
-import 'package:myscanner/userpages/page_history_details.dart';
+import 'package:myscanner/userpages/page_details.dart';
 import 'package:myscanner/userpages/page_not_found.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

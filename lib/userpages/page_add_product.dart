@@ -1005,6 +1005,9 @@ class AddProductState extends State<AddProduct> {
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   padding: EdgeInsets.all(16),
+                  textColor: Color(0xffffffff),
+                  height: 45,
+                  minWidth: MediaQuery.of(context).size.width,
                   child: Text(
                     "Add For Review",
                     style: TextStyle(
@@ -1013,9 +1016,6 @@ class AddProductState extends State<AddProduct> {
                       fontStyle: FontStyle.normal,
                     ),
                   ),
-                  textColor: Color(0xffffffff),
-                  height: 45,
-                  minWidth: MediaQuery.of(context).size.width,
                 ),
               ),
             ],

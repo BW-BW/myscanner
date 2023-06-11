@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myscanner/global/global.dart';
-import 'package:myscanner/userpages/page_history_details.dart';
+import 'package:myscanner/userpages/page_details.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductData {
