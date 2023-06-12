@@ -90,7 +90,7 @@ class AddProductState extends State<AddProduct> {
       print(glutenfree);
       print(halal);
     } else {
-      await Supabase.instance.client.from('detailsTable').insert({
+      await Supabase.instance.client.from('reviewTable').insert({
         'barcode': barcode,
         'name': name,
         'vegan': vegan,
