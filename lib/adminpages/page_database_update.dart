@@ -32,20 +32,20 @@ class UpdatePageState extends State<UpdatePage> {
   final SupabaseClient client = SupabaseClient(supabaseURL, supabaseKey);
 
   late int barcode = widget.productData.barcode;
-  String name = "";
+  late String name = widget.productData.name;
   late String vegan = widget.productData.vegan.toString().toLowerCase();
   late String glutenfree =
       widget.productData.glutenfree.toString().toLowerCase();
   late String halal = widget.productData.halal.toString().toLowerCase();
-  String netto = "";
-  String calorie = "";
-  String fat = "";
-  String protein = "";
-  String carbo = "";
-  String sodium = "";
-  String sugar = "";
-  String details = "";
-  String imgurl = "";
+  late String netto = widget.productData.netto;
+  late String calorie = widget.productData.calorie;
+  late String fat = widget.productData.fat;
+  late String protein = widget.productData.protein;
+  late String carbo = widget.productData.carbo;
+  late String sodium = widget.productData.sodium;
+  late String sugar = widget.productData.sugar;
+  late String details = widget.productData.details;
+  late String imgurl = widget.productData.imgurl;
 
   TextEditingController _barcodeController = TextEditingController();
   TextEditingController _nameController = TextEditingController();
@@ -72,7 +72,7 @@ class UpdatePageState extends State<UpdatePage> {
     _imgurlController.text = widget.productData.imgurl;
   }
 
-  void addData() async {
+  void updateData() async {
     if (barcode == 0 ||
         name == "" ||
         netto == "" ||
@@ -83,8 +83,7 @@ class UpdatePageState extends State<UpdatePage> {
         sodium == "" ||
         sugar == "" ||
         details == "" ||
-        imgurl == "" ||
-        currentFileReviewGlobal == "") {
+        imgurl == "") {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -117,8 +116,7 @@ class UpdatePageState extends State<UpdatePage> {
       print(glutenfree);
       print(halal);
     } else {
-      await Supabase.instance.client.from('detailsTable').insert({
-        'barcode': barcode,
+      await Supabase.instance.client.from('detailsTable').update({
         'name': name,
         'vegan': vegan,
         'gluten_free': glutenfree,
@@ -132,7 +130,7 @@ class UpdatePageState extends State<UpdatePage> {
         'sugar_g': sugar,
         'details': details,
         'image_url': imgurl,
-      });
+      }).eq('barcode', barcode);
       successMessage();
     }
   }
@@ -157,52 +155,6 @@ class UpdatePageState extends State<UpdatePage> {
     );
   }
 
-  void addPhoto() async {
-    var pickedFile = await FilePicker.platform.pickFiles(allowMultiple: false);
-    if (pickedFile != null) {
-      final file = File(pickedFile.files.first.path!);
-      await client.storage
-          .from("review")
-          .upload(pickedFile.files.first.name, file)
-          .then((value) {});
-      final String publicUrl = client.storage
-          .from('review')
-          .getPublicUrl(pickedFile.files.first.name);
-      print(publicUrl);
-
-      // await Supabase.instance.client
-      //     .from('userCreds')
-      //     .update({'profile_url': publicUrl})
-      //     .eq('username', currentEmailGlobal)
-      //     .eq('password', currentPasswordGlobal);
-
-      currentUrlReviewGlobal = publicUrl;
-      imgurl = publicUrl;
-      currentFileReviewGlobal = pickedFile.files.first.name;
-
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Congratulations'),
-            content: Text('You have successfully update your profile'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-      // Navigator.of(context)
-      //     .pushNamedAndRemoveUntil('/mypage4', (route) => false);
-    }
-  }
-
-  // ignore_for_file: unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -249,7 +201,7 @@ class UpdatePageState extends State<UpdatePage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 8, 0, 20),
                 child: Text(
                   "Keep in mind that all data should cover the whole pack not serving size or your data might be rejected.",
                   textAlign: TextAlign.center,
@@ -260,51 +212,6 @@ class UpdatePageState extends State<UpdatePage> {
                     fontSize: 14,
                     color: Color(0xff000000),
                   ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: Column(
-                  children: [
-                    InkWell(
-                      onTap: addPhoto,
-                      child: Container(
-                        alignment: Alignment.center,
-                        margin:
-                            EdgeInsets.symmetric(vertical: 40, horizontal: 0),
-                        padding: EdgeInsets.all(0),
-                        width: 240,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Color(0x273a57e8),
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(24.0),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              child: Text(
-                                "Choose Product Photo",
-                                textAlign: TextAlign.start,
-                                overflow: TextOverflow.clip,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 16,
-                                  color: Color(0xff3a57e8),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Text('Choosen File Name: ' '$currentFileReviewGlobal')
-                  ],
                 ),
               ),
               Padding(
@@ -1024,7 +931,7 @@ class UpdatePageState extends State<UpdatePage> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: updateData,
                   color: Color(0xff3a57e8),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -1047,7 +954,9 @@ class UpdatePageState extends State<UpdatePage> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                   color: Color(0xff3a57e8),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
