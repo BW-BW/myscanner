@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myscanner/adminpages/page_database.dart';
 import 'package:myscanner/adminpages/page_database_update.dart';
+import 'package:myscanner/global/loading.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../dataclass/product_data.dart';
 
@@ -17,8 +18,9 @@ class DetailsScreenAdmin extends StatefulWidget {
 
 class DetailsScreenAdminState extends State<DetailsScreenAdmin> {
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   late ProductData choosenData = ProductData(
@@ -39,6 +41,13 @@ class DetailsScreenAdminState extends State<DetailsScreenAdmin> {
   );
 
   void deleteData() async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoadingScreen(),
+      ),
+    );
+
     await Supabase.instance.client
         .from('detailsTable')
         .delete()
@@ -78,11 +87,14 @@ class DetailsScreenAdminState extends State<DetailsScreenAdmin> {
               child: MaterialButton(
                 onPressed: () {
                   deleteData();
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PageDatabase()),
-                  );
+                  print('object');
+                  //Navigator.of(context).pop;
+                  //Navigator.of(context).pop;
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  //Navigator.popAndPushNamed(context, '/main_screen');
+                  //Navigator.popUntil(context, (route) => route.isFirst);
                 },
                 color: Color(0xff3a57e8),
                 elevation: 0,

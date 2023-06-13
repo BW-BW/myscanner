@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myscanner/global/global.dart';
+import 'package:myscanner/global/loading.dart';
 import 'package:myscanner/userpages/page_details.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../dataclass/product_data.dart';
@@ -139,7 +140,12 @@ class MyPage2State extends State<MyPage2> {
             ),
             child: InkWell(
               onTap: () {
-                print("HistoryTapped");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoadingScreen(),
+                  ),
+                );
                 Navigator.push(
                   context,
                   MaterialPageRoute(

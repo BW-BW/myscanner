@@ -1,5 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:myscanner/global/global.dart';
+import 'package:myscanner/global/loading.dart';
 import 'package:myscanner/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:file_picker/file_picker.dart';
@@ -39,6 +42,13 @@ class MyPage4State extends State<MyPage4> {
   }
 
   void changeProfile() async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoadingScreen(),
+      ),
+    );
+
     var pickedFile = await FilePicker.platform.pickFiles(allowMultiple: false);
     if (pickedFile != null) {
       final file = File(pickedFile.files.first.path!);
@@ -48,7 +58,7 @@ class MyPage4State extends State<MyPage4> {
           .then((value) {});
       final String publicUrl =
           client.storage.from('user').getPublicUrl(pickedFile.files.first.name);
-      print(publicUrl);
+      //print(publicUrl);
 
       await Supabase.instance.client
           .from('userCreds')
@@ -69,14 +79,14 @@ class MyPage4State extends State<MyPage4> {
                 child: Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 },
               ),
             ],
           );
         },
       );
-      // Navigator.of(context)
-      //     .pushNamedAndRemoveUntil('/mypage4', (route) => false);
+      setState(() {});
     }
   }
 

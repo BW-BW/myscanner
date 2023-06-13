@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myscanner/adminpages/adminmain.dart';
+import 'package:myscanner/global/loading.dart';
 import 'package:myscanner/register.dart';
 import 'package:myscanner/userpages/page_account.dart';
 import 'package:myscanner/userpages/usermain.dart';
@@ -52,6 +53,9 @@ class MyLoginState extends State<MyLogin> {
   String _email = "";
   String _password = "";
 
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passowordController = TextEditingController();
+
   void updateAllGlobal(String email, String password, String name,
       String gender, String age, String url, String id) {
     currentEmailGlobal = email;
@@ -70,6 +74,13 @@ class MyLoginState extends State<MyLogin> {
   }
 
   void login() async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoadingScreen(),
+      ),
+    );
+
     final data = await Supabase.instance.client
         .from('userCreds')
         .select()
@@ -79,9 +90,44 @@ class MyLoginState extends State<MyLogin> {
     if (_email == 'a' && _password == 'a') {
       Navigator.of(context).pushNamedAndRemoveUntil("/admin", (route) => false);
     } else if (data.isEmpty) {
-      print('data not found');
+      //print('data not found');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Oh No!'),
+            content: Text('We cannot find your credentials'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     } else if (data[0]['suspended'] == true) {
-      print('account suspended');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Oh No!'),
+            content: Text('This account has been suspended!'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     } else {
       print(data);
       updateAllGlobal(
@@ -172,7 +218,7 @@ class MyLoginState extends State<MyLogin> {
                       padding:
                           EdgeInsets.symmetric(vertical: 16, horizontal: 0),
                       child: TextField(
-                        controller: TextEditingController(),
+                        controller: _emailController,
                         obscureText: false,
                         textAlign: TextAlign.left,
                         maxLines: 1,
@@ -216,7 +262,7 @@ class MyLoginState extends State<MyLogin> {
                       ),
                     ),
                     TextField(
-                      controller: TextEditingController(),
+                      controller: _passowordController,
                       obscureText: true,
                       textAlign: TextAlign.start,
                       maxLines: 1,
@@ -306,8 +352,6 @@ class MyLoginState extends State<MyLogin> {
                             padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
                             child: InkWell(
                               onTap: () {
-                                // Handle the click event here
-                                // For example, you can navigate to a different screen
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

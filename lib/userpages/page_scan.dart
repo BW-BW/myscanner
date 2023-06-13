@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:myscanner/global/global.dart';
+import 'package:myscanner/global/loading.dart';
 import 'package:myscanner/userpages/page_details.dart';
 import 'package:myscanner/userpages/page_not_found.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../dataclass/product_data.dart';
 
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 class MyPage3 extends StatefulWidget {
   const MyPage3({super.key});
@@ -52,6 +53,13 @@ class MyPage3State extends State<MyPage3> {
         MaterialPageRoute(builder: (context) => const PageNotFound()),
       );
     } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoadingScreen(),
+        ),
+      );
+
       ProductData productData = ProductData(
           barcode: data[0]['barcode'],
           name: data[0]['name'],
@@ -91,19 +99,51 @@ class MyPage3State extends State<MyPage3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Scan')),
+      backgroundColor: Color(0xffebebeb),
+      appBar: AppBar(
+        elevation: 10,
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        backgroundColor: Color(0xffffffff),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero,
+        ),
+        title: Text(
+          "Scan Now",
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontStyle: FontStyle.normal,
+            fontSize: 18,
+            color: Color(0xff000000),
+          ),
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Scan'),
-            ElevatedButton(
-              onPressed: scanBarcodeNormal,
-              child: const Text('Start Barcode scan'),
-            ),
-            Text(
-              'Scan result: $_scanBarcode\n',
-              style: const TextStyle(fontSize: 20),
+            Padding(
+              padding: const EdgeInsets.all(80.0),
+              child: MaterialButton(
+                onPressed: scanBarcodeNormal,
+                color: Color(0xff3a57e8),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                padding: EdgeInsets.all(16),
+                textColor: Color(0xffffffff),
+                height: 45,
+                minWidth: MediaQuery.of(context).size.width,
+                child: Text(
+                  "Scan Barcode",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
