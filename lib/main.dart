@@ -80,6 +80,8 @@ class MyLoginState extends State<MyLogin> {
       Navigator.of(context).pushNamedAndRemoveUntil("/admin", (route) => false);
     } else if (data.isEmpty) {
       print('data not found');
+    } else if (data[0]['suspended'] == true) {
+      print('account suspended');
     } else {
       print(data);
       updateAllGlobal(

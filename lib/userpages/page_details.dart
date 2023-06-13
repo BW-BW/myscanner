@@ -2,18 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:myscanner/global/global.dart';
 import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../dataclass/comment_data.dart';
 import '../dataclass/product_data.dart';
 
 // ignore_for_file: unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
-
-class CommentData {
-  final int barcode;
-  final String createdby;
-  final String content;
-
-  CommentData(
-      {required this.barcode, required this.createdby, required this.content});
-}
 
 List<CommentData> commentList = [];
 
@@ -37,7 +29,8 @@ class DetailsScreenState extends State<DetailsScreen> {
     await Supabase.instance.client.from('commentTable').insert({
       'barcode': widget.productData.barcode,
       'created_by': currentNameGlobal,
-      'comment': comment
+      'comment': comment,
+      'food_name': widget.productData.name
     });
 
     getComment();
@@ -55,7 +48,8 @@ class DetailsScreenState extends State<DetailsScreen> {
       return CommentData(
           barcode: row['barcode'] as int,
           createdby: row['created_by'] as String,
-          content: row['comment'] as String);
+          content: row['comment'] as String,
+          foodname: row['food_name'] as String);
     }).toList();
 
     setState(() {});

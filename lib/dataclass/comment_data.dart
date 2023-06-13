@@ -1,0 +1,12 @@
+class CommentData {
+  final int barcode;
+  final String createdby;
+  final String content;
+  final String foodname;
+
+  CommentData(
+      {required this.barcode,
+      required this.createdby,
+      required this.content,
+      required this.foodname});
+}

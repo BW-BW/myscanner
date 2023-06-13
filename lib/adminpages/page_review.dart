@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myscanner/adminpages/page_review_details.dart';
+import 'package:myscanner/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../dataclass/product_data.dart';
 
@@ -60,14 +61,33 @@ class PageReviewState extends State<PageReview> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),
-        title: Text(
-          "Search Your Item",
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontStyle: FontStyle.normal,
-            fontSize: 18,
-            color: Color(0xff000000),
-          ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Text(
+              "Review Database",
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontStyle: FontStyle.normal,
+                fontSize: 18,
+                color: Color(0xff3a57e8),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const MyLogin()),
+                    (Route<dynamic> route) => false);
+              },
+              child: Icon(
+                Icons.logout,
+                color: Color(0xff3a57e8),
+                size: 24,
+              ),
+            ),
+          ],
         ),
       ),
       body: SingleChildScrollView(
