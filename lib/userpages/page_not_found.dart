@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:myscanner/userpages/page_add_product.dart';
 
 // ignore_for_file: unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
@@ -34,16 +33,13 @@ class PageNotFoundState extends State<PageNotFound> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Lottie.network(
-                  "https://assets9.lottiefiles.com/packages/lf20_tmsiddoc.json",
-                  height: 200,
-                  width: 300,
-                  fit: BoxFit.cover,
-                  repeat: true,
-                  animate: true,
+                Image.asset(
+                  "assets/notFound.gif",
+                  height: 330.0,
+                  width: 330.0,
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 30, 0, 16),
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: Text(
                     "No records found",
                     textAlign: TextAlign.start,

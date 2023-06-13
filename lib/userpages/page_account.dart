@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myscanner/global/global.dart';
 import 'package:myscanner/main.dart';
-import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
@@ -19,6 +18,8 @@ class MyPage4State extends State<MyPage4> {
   static String supabaseKey =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkanRva3FnYmt4ZmJndnZyYnZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI4Mzk5OTIsImV4cCI6MTk5ODQxNTk5Mn0.J5zMy7DRe4CmRd5p31iOcxITF_3TEcmMT3qdAPhavwY";
   final SupabaseClient client = SupabaseClient(supabaseURL, supabaseKey);
+
+  //FlutterGifController controller= FlutterGifController(vsync: );
 
   void resetGlobal() {
     currentEmailGlobal = '';
@@ -120,16 +121,13 @@ class MyPage4State extends State<MyPage4> {
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        Lottie.network(
-                          "https://assets8.lottiefiles.com/packages/lf20_8ydmsved.json",
-                          height: 300,
-                          width: 300,
-                          fit: BoxFit.cover,
-                          repeat: true,
-                          animate: true,
+                        Image.asset(
+                          "assets/userBackround.gif",
+                          height: 220.0,
+                          width: 220.0,
                         ),
                         Align(
-                          alignment: Alignment(0.0, 0.2),
+                          alignment: Alignment(0.0, 0.0),
                           child: Container(
                             height: 200,
                             width: 200,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:myscanner/adminpages/page_review.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../dataclass/product_data.dart';
@@ -167,16 +166,13 @@ class ReviewScreenAdminState extends State<ReviewScreenAdmin> {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  Lottie.network(
-                    "https://assets8.lottiefiles.com/packages/lf20_8ydmsved.json",
-                    height: 300,
-                    width: 300,
-                    fit: BoxFit.cover,
-                    repeat: true,
-                    animate: true,
+                  Image.asset(
+                    "assets/userBackround.gif",
+                    height: 220.0,
+                    width: 220.0,
                   ),
                   Align(
-                    alignment: Alignment(0.0, 0.2),
+                    alignment: Alignment(0.0, 0.0),
                     child: Container(
                       height: 200,
                       width: 200,
