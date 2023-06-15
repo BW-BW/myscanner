@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myscanner/adminpages/page_database_add.dart';
 import 'package:myscanner/adminpages/page_database_details.dart';
 import 'package:myscanner/main.dart';
-import 'package:myscanner/userpages/page_add_product.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../dataclass/product_data.dart';
 
@@ -21,13 +21,6 @@ class PageDatabaseState extends State<PageDatabase> {
   void initState() {
     super.initState();
     searchData(''); // Call a method to fetch the data
-  }
-
-  void redirect() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const AddProduct()),
-    );
   }
 
   void searchData(String search) async {
@@ -106,7 +99,11 @@ class PageDatabaseState extends State<PageDatabase> {
         onPressed: () {
           // Perform some action when the button is pressed
           print('FAB Pressed');
-          redirect();
+          //redirect();
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddProductAdmin()),
+          );
         },
         child: Icon(Icons.add),
       ),

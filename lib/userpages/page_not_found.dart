@@ -22,7 +22,35 @@ class PageNotFoundState extends State<PageNotFound> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffffffff),
-      appBar: AppBar(title: const Text('Page Not Found')),
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        backgroundColor: Color(0x00ffffff),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero,
+        ),
+        title: Text(
+          'Product Not Found',
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontStyle: FontStyle.normal,
+            fontSize: 20,
+            color: Color(0xff000000),
+          ),
+        ),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+            //Navigator.of(context).pop();
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: Color(0xff212435),
+            size: 24,
+          ),
+        ),
+      ),
       body: Align(
         alignment: Alignment.center,
         child: Padding(

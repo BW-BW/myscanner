@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myscanner/adminpages/page_review.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../dataclass/product_data.dart';
 
@@ -70,6 +69,62 @@ class ReviewScreenAdminState extends State<ReviewScreenAdmin> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          title: Text('Approve Confirmation'),
+          content: Text('Are you sure you want to approve?'),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MaterialButton(
+                onPressed: () {
+                  print(choosenData);
+                  print('object');
+                  Navigator.of(context).pop();
+                },
+                color: Color(0xff3a57e8),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                padding: EdgeInsets.all(16),
+                textColor: Color(0xffffffff),
+                height: 45,
+                minWidth: MediaQuery.of(context).size.width,
+                child: Text('Cancel'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MaterialButton(
+                onPressed: () {
+                  approveReview();
+                  Navigator.of(context).pop();
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil("/admin", (route) => false);
+                },
+                color: Color(0xff3a57e8),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                padding: EdgeInsets.all(16),
+                textColor: Color(0xffffffff),
+                height: 45,
+                minWidth: MediaQuery.of(context).size.width,
+                child: Text('Approve'),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void popupReject(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
           title: Text('Reject Confirmation'),
           content: Text('Are you sure you want to reject?'),
           actions: <Widget>[
@@ -98,11 +153,11 @@ class ReviewScreenAdminState extends State<ReviewScreenAdmin> {
               child: MaterialButton(
                 onPressed: () {
                   rejectReview();
+                  //Navigator.of(context).pop();
                   Navigator.of(context).pop();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PageReview()),
-                  );
+                  //Navigator.popUntil(context, (route) => route.isFirst);
+                  //Navigator.of(context)
+                  //  .pushNamedAndRemoveUntil("/admin", (route) => false);
                 },
                 color: Color(0xff3a57e8),
                 elevation: 0,
@@ -556,7 +611,9 @@ class ReviewScreenAdminState extends State<ReviewScreenAdmin> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
                       child: MaterialButton(
-                        onPressed: approveReview,
+                        onPressed: () {
+                          popupConfirm(context);
+                        },
                         color: Color(0xff3a57e8),
                         elevation: 0,
                         shape: RoundedRectangleBorder(
@@ -580,8 +637,7 @@ class ReviewScreenAdminState extends State<ReviewScreenAdmin> {
                       padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
                       child: MaterialButton(
                         onPressed: () {
-                          //_showPopup(context);
-                          popupConfirm(context);
+                          popupReject(context);
                         },
                         color: Color(0xff3a57e8),
                         elevation: 0,

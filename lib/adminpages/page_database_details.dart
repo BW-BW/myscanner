@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myscanner/adminpages/page_database.dart';
 import 'package:myscanner/adminpages/page_database_update.dart';
 import 'package:myscanner/global/loading.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -18,9 +17,8 @@ class DetailsScreenAdmin extends StatefulWidget {
 
 class DetailsScreenAdminState extends State<DetailsScreenAdmin> {
   @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
+  void initState() {
+    super.initState();
   }
 
   late ProductData choosenData = ProductData(
@@ -87,14 +85,10 @@ class DetailsScreenAdminState extends State<DetailsScreenAdmin> {
               child: MaterialButton(
                 onPressed: () {
                   deleteData();
-                  print('object');
-                  //Navigator.of(context).pop;
-                  //Navigator.of(context).pop;
                   Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  //Navigator.popAndPushNamed(context, '/main_screen');
-                  //Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil("/admin", (route) => false);
                 },
                 color: Color(0xff3a57e8),
                 elevation: 0,

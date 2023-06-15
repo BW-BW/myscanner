@@ -1,46 +1,37 @@
+// ignore_for_file: sort_child_properties_last
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:myscanner/global/global.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../dataclass/product_data.dart';
+import 'package:flutter/services.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:io';
 
-// ignore_for_file: unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
-
-class UpdatePage extends StatefulWidget {
-  final ProductData productData;
-
-  const UpdatePage({super.key, required this.productData});
-
+class AddProductAdmin extends StatefulWidget {
+  const AddProductAdmin({super.key});
   @override
-  UpdatePageState createState() => UpdatePageState();
+  AddProductAdminState createState() => AddProductAdminState();
 }
 
-class UpdatePageState extends State<UpdatePage> {
-  @override
-  void initState() {
-    super.initState();
-    setText();
-  }
-
+class AddProductAdminState extends State<AddProductAdmin> {
   static String supabaseURL = "https://hdjtokqgbkxfbgvvrbvw.supabase.co";
   static String supabaseKey =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkanRva3FnYmt4ZmJndnZyYnZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI4Mzk5OTIsImV4cCI6MTk5ODQxNTk5Mn0.J5zMy7DRe4CmRd5p31iOcxITF_3TEcmMT3qdAPhavwY";
   final SupabaseClient client = SupabaseClient(supabaseURL, supabaseKey);
 
-  late int barcode = widget.productData.barcode;
-  late String name = widget.productData.name;
-  late String vegan = widget.productData.vegan.toString().toLowerCase();
-  late String glutenfree =
-      widget.productData.glutenfree.toString().toLowerCase();
-  late String halal = widget.productData.halal.toString().toLowerCase();
-  late String netto = widget.productData.netto;
-  late String calorie = widget.productData.calorie;
-  late String fat = widget.productData.fat;
-  late String protein = widget.productData.protein;
-  late String carbo = widget.productData.carbo;
-  late String sodium = widget.productData.sodium;
-  late String sugar = widget.productData.sugar;
-  late String details = widget.productData.details;
-  late String imgurl = widget.productData.imgurl;
+  int barcode = 0;
+  String name = '';
+  String vegan = 'true';
+  String glutenfree = 'true';
+  String halal = 'true';
+  String netto = "";
+  String calorie = "";
+  String fat = "";
+  String protein = "";
+  String carbo = "";
+  String sodium = "";
+  String sugar = "";
+  String details = "";
+  String imgurl = "";
 
   TextEditingController _barcodeController = TextEditingController();
   TextEditingController _nameController = TextEditingController();
@@ -54,20 +45,7 @@ class UpdatePageState extends State<UpdatePage> {
   TextEditingController _detailsController = TextEditingController();
   TextEditingController _imgurlController = TextEditingController();
 
-  void setText() {
-    _nameController.text = widget.productData.name;
-    _nettoController.text = widget.productData.netto;
-    _calorieController.text = widget.productData.calorie;
-    _fatController.text = widget.productData.fat;
-    _proteinController.text = widget.productData.protein;
-    _carboController.text = widget.productData.carbo;
-    _sodiumController.text = widget.productData.sodium;
-    _sugarController.text = widget.productData.sugar;
-    _detailsController.text = widget.productData.details;
-    _imgurlController.text = widget.productData.imgurl;
-  }
-
-  void updateData() async {
+  void addData() async {
     if (barcode == 0 ||
         name == "" ||
         netto == "" ||
@@ -78,7 +56,8 @@ class UpdatePageState extends State<UpdatePage> {
         sodium == "" ||
         sugar == "" ||
         details == "" ||
-        imgurl == "") {
+        imgurl == "" ||
+        currentFileReviewGlobal == "") {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -111,7 +90,8 @@ class UpdatePageState extends State<UpdatePage> {
       print(glutenfree);
       print(halal);
     } else {
-      await Supabase.instance.client.from('detailsTable').update({
+      await Supabase.instance.client.from('detailsTable').insert({
+        'barcode': barcode,
         'name': name,
         'vegan': vegan,
         'gluten_free': glutenfree,
@@ -125,7 +105,7 @@ class UpdatePageState extends State<UpdatePage> {
         'sugar_g': sugar,
         'details': details,
         'image_url': imgurl,
-      }).eq('barcode', barcode);
+      });
       successMessage();
     }
   }
@@ -136,11 +116,13 @@ class UpdatePageState extends State<UpdatePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Congrats'),
-          content: Text('Data Has Been Successfully Modified'),
+          content: Text('You have successfully add data to database'),
           actions: <Widget>[
             TextButton(
               child: Text('OK'),
               onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
                 Navigator.popUntil(context, (route) => route.isFirst);
                 Navigator.of(context)
                     .pushNamedAndRemoveUntil("/admin", (route) => false);
@@ -152,6 +134,52 @@ class UpdatePageState extends State<UpdatePage> {
     );
   }
 
+  void addPhoto() async {
+    var pickedFile = await FilePicker.platform.pickFiles(allowMultiple: false);
+    if (pickedFile != null) {
+      final file = File(pickedFile.files.first.path!);
+      await client.storage
+          .from("review")
+          .upload(pickedFile.files.first.name, file)
+          .then((value) {});
+      final String publicUrl = client.storage
+          .from('review')
+          .getPublicUrl(pickedFile.files.first.name);
+      print(publicUrl);
+
+      // await Supabase.instance.client
+      //     .from('userCreds')
+      //     .update({'profile_url': publicUrl})
+      //     .eq('username', currentEmailGlobal)
+      //     .eq('password', currentPasswordGlobal);
+
+      currentUrlReviewGlobal = publicUrl;
+      imgurl = publicUrl;
+      currentFileReviewGlobal = pickedFile.files.first.name;
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Congratulations'),
+            content: Text('You have successfully upload picture'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      // Navigator.of(context)
+      //     .pushNamedAndRemoveUntil('/mypage4', (route) => false);
+    }
+  }
+
+  // ignore_for_file: unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,6 +194,8 @@ class UpdatePageState extends State<UpdatePage> {
         ),
         leading: GestureDetector(
           onTap: () {
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
             Navigator.of(context).pop();
           },
           child: Icon(
@@ -198,7 +228,7 @@ class UpdatePageState extends State<UpdatePage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 8, 0, 20),
+                padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                 child: Text(
                   "Keep in mind that all data should cover the whole pack not serving size or your data might be rejected.",
                   textAlign: TextAlign.center,
@@ -209,6 +239,51 @@ class UpdatePageState extends State<UpdatePage> {
                     fontSize: 14,
                     color: Color(0xff000000),
                   ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: addPhoto,
+                      child: Container(
+                        alignment: Alignment.center,
+                        margin:
+                            EdgeInsets.symmetric(vertical: 40, horizontal: 0),
+                        padding: EdgeInsets.all(0),
+                        width: 240,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Color(0x273a57e8),
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(24.0),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              child: Text(
+                                "Choose Product Photo",
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16,
+                                  color: Color(0xff3a57e8),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Text('Choosen File Name: ' '$currentFileReviewGlobal')
+                  ],
                 ),
               ),
               Padding(
@@ -247,7 +322,7 @@ class UpdatePageState extends State<UpdatePage> {
                           borderSide:
                               BorderSide(color: Color(0xff3a57e8), width: 1),
                         ),
-                        hintText: 'Add Name',
+                        hintText: "Add Name",
                         hintStyle: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
@@ -322,6 +397,70 @@ class UpdatePageState extends State<UpdatePage> {
                       ),
                       onChanged: (value) {
                         details = value;
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        child: Text("Barcode")),
+                    TextField(
+                      controller: _barcodeController,
+                      obscureText: false,
+                      textAlign: TextAlign.start,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14,
+                        color: Color(0xff000000),
+                      ),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d{0,2}')),
+                      ],
+                      keyboardType: TextInputType
+                          .number, // Set the keyboard type to number
+                      decoration: InputDecoration(
+                        disabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide:
+                              BorderSide(color: Color(0xff3a57e8), width: 1),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide:
+                              BorderSide(color: Color(0xff3a57e8), width: 1),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide:
+                              BorderSide(color: Color(0xff3a57e8), width: 1),
+                        ),
+                        hintText: "Add Barcode",
+                        hintStyle: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14,
+                          color: Color(0xff000000),
+                        ),
+                        filled: true,
+                        fillColor: Color(0xffffffff),
+                        isDense: false,
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                        prefixIcon: Icon(Icons.work_outlined,
+                            color: Color(0xff212435), size: 24),
+                      ),
+                      onChanged: (value) {
+                        barcode = int.parse(value);
                       },
                     ),
                   ],
@@ -832,7 +971,7 @@ class UpdatePageState extends State<UpdatePage> {
                         child: Text("Vegan")),
                     DropdownButtonFormField<String>(
                       //controller: _fullNameController,
-                      value: vegan.toString(),
+                      value: vegan,
                       decoration: InputDecoration(
                         disabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -884,7 +1023,7 @@ class UpdatePageState extends State<UpdatePage> {
                         child: Text("Glutten Free")),
                     DropdownButtonFormField<String>(
                       //controller: _fullNameController,
-                      value: glutenfree.toString(),
+                      value: glutenfree,
                       decoration: InputDecoration(
                         disabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -928,7 +1067,7 @@ class UpdatePageState extends State<UpdatePage> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: MaterialButton(
-                  onPressed: updateData,
+                  onPressed: addData,
                   color: Color(0xff3a57e8),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -939,32 +1078,7 @@ class UpdatePageState extends State<UpdatePage> {
                   height: 45,
                   minWidth: MediaQuery.of(context).size.width,
                   child: Text(
-                    "Update Data",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      fontStyle: FontStyle.normal,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  color: Color(0xff3a57e8),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  padding: EdgeInsets.all(16),
-                  textColor: Color(0xffffffff),
-                  height: 45,
-                  minWidth: MediaQuery.of(context).size.width,
-                  child: Text(
-                    "Cancel",
+                    "Add For Review",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,

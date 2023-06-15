@@ -122,6 +122,8 @@ class AddProductState extends State<AddProduct> {
               child: Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -158,7 +160,7 @@ class AddProductState extends State<AddProduct> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Congratulations'),
-            content: Text('You have successfully update your profile'),
+            content: Text('You have successfully choose a photo'),
             actions: <Widget>[
               TextButton(
                 child: Text('OK'),
