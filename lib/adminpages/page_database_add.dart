@@ -194,9 +194,9 @@ class AddProductAdminState extends State<AddProductAdmin> {
         ),
         leading: GestureDetector(
           onTap: () {
-            Navigator.of(context).pop();
-            Navigator.of(context).pop();
-            Navigator.of(context).pop();
+            Navigator.popUntil(context, (route) => route.isFirst);
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil("/admin", (route) => false);
           },
           child: Icon(
             Icons.arrow_back,
