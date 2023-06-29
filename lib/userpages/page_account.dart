@@ -17,9 +17,9 @@ class MyPage4 extends StatefulWidget {
 }
 
 class MyPage4State extends State<MyPage4> {
-  static String supabaseURL = "https://hdjtokqgbkxfbgvvrbvw.supabase.co";
-  static String supabaseKey =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkanRva3FnYmt4ZmJndnZyYnZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI4Mzk5OTIsImV4cCI6MTk5ODQxNTk5Mn0.J5zMy7DRe4CmRd5p31iOcxITF_3TEcmMT3qdAPhavwY";
+  // static String supabaseURL = "https://hdjtokqgbkxfbgvvrbvw.supabase.co";
+  // static String supabaseKey =
+  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkanRva3FnYmt4ZmJndnZyYnZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI4Mzk5OTIsImV4cCI6MTk5ODQxNTk5Mn0.J5zMy7DRe4CmRd5p31iOcxITF_3TEcmMT3qdAPhavwY";
   final SupabaseClient client = SupabaseClient(supabaseURL, supabaseKey);
 
   //FlutterGifController controller= FlutterGifController(vsync: );
@@ -61,7 +61,7 @@ class MyPage4State extends State<MyPage4> {
       //print(publicUrl);
 
       await Supabase.instance.client
-          .from('userCreds')
+          .from('userTable')
           .update({'profile_url': publicUrl})
           .eq('username', currentEmailGlobal)
           .eq('password', currentPasswordGlobal);

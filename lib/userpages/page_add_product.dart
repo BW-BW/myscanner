@@ -13,9 +13,9 @@ class AddProduct extends StatefulWidget {
 }
 
 class AddProductState extends State<AddProduct> {
-  static String supabaseURL = "https://hdjtokqgbkxfbgvvrbvw.supabase.co";
-  static String supabaseKey =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkanRva3FnYmt4ZmJndnZyYnZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI4Mzk5OTIsImV4cCI6MTk5ODQxNTk5Mn0.J5zMy7DRe4CmRd5p31iOcxITF_3TEcmMT3qdAPhavwY";
+  // static String supabaseURL = "https://hdjtokqgbkxfbgvvrbvw.supabase.co";
+  // static String supabaseKey =
+  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkanRva3FnYmt4ZmJndnZyYnZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI4Mzk5OTIsImV4cCI6MTk5ODQxNTk5Mn0.J5zMy7DRe4CmRd5p31iOcxITF_3TEcmMT3qdAPhavwY";
   final SupabaseClient client = SupabaseClient(supabaseURL, supabaseKey);
 
   int barcode = int.parse(currentScannedGlobal);
@@ -137,11 +137,11 @@ class AddProductState extends State<AddProduct> {
     if (pickedFile != null) {
       final file = File(pickedFile.files.first.path!);
       await client.storage
-          .from("review")
+          .from("product")
           .upload(pickedFile.files.first.name, file)
           .then((value) {});
       final String publicUrl = client.storage
-          .from('review')
+          .from('product')
           .getPublicUrl(pickedFile.files.first.name);
       print(publicUrl);
 

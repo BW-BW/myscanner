@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myscanner/global/global.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../dataclass/product_data.dart';
 
@@ -21,9 +22,9 @@ class UpdatePageState extends State<UpdatePage> {
     setText();
   }
 
-  static String supabaseURL = "https://hdjtokqgbkxfbgvvrbvw.supabase.co";
-  static String supabaseKey =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkanRva3FnYmt4ZmJndnZyYnZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI4Mzk5OTIsImV4cCI6MTk5ODQxNTk5Mn0.J5zMy7DRe4CmRd5p31iOcxITF_3TEcmMT3qdAPhavwY";
+  // static String supabaseURL = "https://hdjtokqgbkxfbgvvrbvw.supabase.co";
+  // static String supabaseKey =
+  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkanRva3FnYmt4ZmJndnZyYnZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI4Mzk5OTIsImV4cCI6MTk5ODQxNTk5Mn0.J5zMy7DRe4CmRd5p31iOcxITF_3TEcmMT3qdAPhavwY";
   final SupabaseClient client = SupabaseClient(supabaseURL, supabaseKey);
 
   late int barcode = widget.productData.barcode;

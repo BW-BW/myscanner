@@ -23,7 +23,7 @@ class PageUserState extends State<PageUser> {
   }
 
   void fetchData() async {
-    final response = await Supabase.instance.client.from('userCreds').select();
+    final response = await Supabase.instance.client.from('userTable').select();
 
     final rows = response as List<dynamic>;
 

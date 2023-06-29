@@ -12,9 +12,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Supabase.initialize(
-    url: 'https://hdjtokqgbkxfbgvvrbvw.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkanRva3FnYmt4ZmJndnZyYnZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI4Mzk5OTIsImV4cCI6MTk5ODQxNTk5Mn0.J5zMy7DRe4CmRd5p31iOcxITF_3TEcmMT3qdAPhavwY',
+    url: supabaseURL,
+    anonKey: supabaseKey,
   );
 
   runApp(const MyApp());
@@ -69,7 +68,7 @@ class MyLoginState extends State<MyLogin> {
 
   void register() async {
     await Supabase.instance.client
-        .from('userCreds')
+        .from('userTable')
         .insert({'username': _email, 'password': _password});
   }
 
@@ -82,7 +81,7 @@ class MyLoginState extends State<MyLogin> {
     );
 
     final data = await Supabase.instance.client
-        .from('userCreds')
+        .from('userTable')
         .select()
         .eq('username', _email)
         .eq('password', _password);

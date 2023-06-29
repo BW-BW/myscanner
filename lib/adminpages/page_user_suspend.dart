@@ -25,7 +25,7 @@ class UserSuspendState extends State<UserSuspend> {
 
   void suspend() async {
     await Supabase.instance.client
-        .from('userCreds')
+        .from('userTable')
         .update({
           'suspended': true,
         })

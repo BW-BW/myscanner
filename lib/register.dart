@@ -71,7 +71,7 @@ class MyRegisterState extends State<MyRegister> {
         },
       );
     } else {
-      await Supabase.instance.client.from('userCreds').insert({
+      await Supabase.instance.client.from('userTable').insert({
         'username': _email,
         'password': _password,
         'full_name': _fullname,
