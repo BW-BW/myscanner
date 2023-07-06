@@ -32,6 +32,7 @@ class AddProductState extends State<AddProduct> {
   String sugar = "";
   String details = "";
   String imgurl = "";
+  String ingredient = "";
 
   TextEditingController _barcodeController = TextEditingController();
   TextEditingController _nameController = TextEditingController();
@@ -44,6 +45,7 @@ class AddProductState extends State<AddProduct> {
   TextEditingController _sugarController = TextEditingController();
   TextEditingController _detailsController = TextEditingController();
   TextEditingController _imgurlController = TextEditingController();
+  TextEditingController _ingredientController = TextEditingController();
 
   void addData() async {
     if (barcode == 0 ||
@@ -57,6 +59,7 @@ class AddProductState extends State<AddProduct> {
         sugar == "" ||
         details == "" ||
         imgurl == "" ||
+        ingredient == "" ||
         currentFileReviewGlobal == "") {
       showDialog(
         context: context,
@@ -105,6 +108,7 @@ class AddProductState extends State<AddProduct> {
         'sugar_g': sugar,
         'details': details,
         'image_url': imgurl,
+        'ingredients': ingredient
       });
       successMessage();
     }
@@ -991,6 +995,64 @@ class AddProductState extends State<AddProduct> {
                         setState(() {
                           glutenfree = newValue.toString();
                         });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        child: Text("Ingredients")),
+                    TextField(
+                      controller: _ingredientController,
+                      obscureText: false,
+                      textAlign: TextAlign.start,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14,
+                        color: Color(0xff000000),
+                      ),
+                      decoration: InputDecoration(
+                        disabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide:
+                              BorderSide(color: Color(0xff3a57e8), width: 1),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide:
+                              BorderSide(color: Color(0xff3a57e8), width: 1),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide:
+                              BorderSide(color: Color(0xff3a57e8), width: 1),
+                        ),
+                        hintText: "Separate each ingredient with coma (,)",
+                        hintStyle: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14,
+                          color: Color(0xff000000),
+                        ),
+                        filled: true,
+                        fillColor: Color(0xffffffff),
+                        isDense: false,
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                        prefixIcon: Icon(Icons.article,
+                            color: Color(0xff212435), size: 24),
+                      ),
+                      onChanged: (value) {
+                        ingredient = value;
                       },
                     ),
                   ],

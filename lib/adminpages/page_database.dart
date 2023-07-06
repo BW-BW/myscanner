@@ -46,7 +46,8 @@ class PageDatabaseState extends State<PageDatabase> {
           sodium: row['sodium_mg'] as String,
           sugar: row['sugar_g'] as String,
           details: row['details'] as String,
-          imgurl: row['image_url'] as String);
+          imgurl: row['image_url'] as String,
+          ingredients: row['ingredients'] as String);
     }).toList();
 
     setState(() {});

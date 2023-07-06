@@ -56,6 +56,7 @@ class MyPage2State extends State<MyPage2> {
         final sugarJoin = matchingTable['sugar_g'];
         final imageJoin = matchingTable['image_url'];
         final nettoJoin = matchingTable['netto'];
+        final ingredientJoin = matchingTable['ingredients'];
 
         joinedData.add({
           'user_id': userId,
@@ -73,6 +74,7 @@ class MyPage2State extends State<MyPage2> {
           'sugar_g': sugarJoin,
           'image_url': imageJoin,
           'netto': nettoJoin,
+          'ingredients': ingredientJoin
         });
       }
     }
@@ -92,7 +94,8 @@ class MyPage2State extends State<MyPage2> {
           sodium: row['sodium_mg'] as String,
           sugar: row['sugar_g'] as String,
           details: row['details'] as String,
-          imgurl: row['image_url'] as String);
+          imgurl: row['image_url'] as String,
+          ingredients: row['ingredients'] as String);
     }).toList();
 
     setState(() {}); // Refresh the UI with the fetched data

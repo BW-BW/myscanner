@@ -74,7 +74,8 @@ class MyPage3State extends State<MyPage3> {
           sodium: data[0]['sodium_mg'],
           sugar: data[0]['sugar_g'],
           details: data[0]['details'],
-          imgurl: data[0]['image_url']);
+          imgurl: data[0]['image_url'],
+          ingredients: data[0]['ingredients']);
 
       final duplicate = await Supabase.instance.client
           .from('historyTable')
