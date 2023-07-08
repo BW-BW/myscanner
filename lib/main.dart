@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         '/user': (context) => const MyHomePage(),
         '/register': (context) => const MyRegister(),
         '/login': (context) => const MyLogin(),
-        '/mypage4': (context) => MyPage4()
+        '/mypage4': (context) => MyPage4(),
       },
       title: 'Login Screen',
       theme: ThemeData(

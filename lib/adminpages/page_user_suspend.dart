@@ -46,7 +46,8 @@ class UserSuspendState extends State<UserSuspend> {
           barcode: row['barcode'] as int,
           createdby: row['created_by'] as String,
           content: row['comment'] as String,
-          foodname: row['food_name'] as String);
+          foodname: row['food_name'] as String,
+          star: row['star'] as String);
     }).toList();
 
     setState(() {});
