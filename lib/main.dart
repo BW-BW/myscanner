@@ -189,15 +189,14 @@ class MyLoginState extends State<MyLogin> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     ///***If you have exported images you must have to copy those images in assets/images directory.
-                    Image(
-                      image: NetworkImage(
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoSL4WHG5Ypv4e4W58d5Gt4PnBEM_kZQDDhAKjZAOYLBy6V1karPn2SMil6DFkjUUeX7M&usqp=CAU"),
-                      height: 100,
-                      width: 100,
+                    Image.asset(
+                      "assets/login.png",
+                      height: 200,
+                      width: 200,
                       fit: BoxFit.cover,
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(

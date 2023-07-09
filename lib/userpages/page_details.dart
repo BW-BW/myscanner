@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myscanner/global/global.dart';
+import 'package:myscanner/userpages/page_rating.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../dataclass/comment_data.dart';
 import '../dataclass/product_data.dart';
@@ -74,7 +75,11 @@ class DetailsScreenState extends State<DetailsScreen> {
 
     fullStars = currentStar.floor();
     hasHalfStar = currentStar - fullStars >= 0.5;
-    remainder = (5 - currentStar).round();
+    if (currentStar - fullStars == 0.5) {
+      remainder = (5 - currentStar).floor(); //make 1 extra grey star
+    } else {
+      remainder = (5 - currentStar).round();
+    }
 
     setState(() {});
   }
@@ -833,7 +838,15 @@ class DetailsScreenState extends State<DetailsScreen> {
                             padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
                             child: MaterialButton(
                               onPressed: () {
-                                //_showPopup2(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RatingScreen(
+                                      barcodeData:
+                                          widget.productData.barcode.toString(),
+                                    ),
+                                  ),
+                                );
                               },
                               color: Color(0xff3a57e8),
                               elevation: 0,

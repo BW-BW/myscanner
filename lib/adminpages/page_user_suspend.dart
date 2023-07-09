@@ -15,6 +15,9 @@ class UserSuspend extends StatefulWidget {
 }
 
 List<CommentData> commentList = [];
+int fullStars = 0;
+bool hasHalfStar = false;
+int remainder = 0;
 
 class UserSuspendState extends State<UserSuspend> {
   @override
@@ -51,6 +54,12 @@ class UserSuspendState extends State<UserSuspend> {
     }).toList();
 
     setState(() {});
+  }
+
+  void getStar(int star) {
+    fullStars = star.floor(); //fullstar is the current star rounded down
+    hasHalfStar = star - fullStars >= 0.5;
+    remainder = (5 - star).round();
   }
 
   @override
@@ -253,7 +262,7 @@ class UserSuspendState extends State<UserSuspend> {
                     ),
                   ),
                   Text(
-                    'Comments Created',
+                    'Ratings Created',
                     textAlign: TextAlign.start,
                     maxLines: 1,
                     overflow: TextOverflow.clip,
@@ -280,11 +289,10 @@ class UserSuspendState extends State<UserSuspend> {
                               padding: EdgeInsets.all(8),
                               shrinkWrap: true,
                               physics: ClampingScrollPhysics(),
-                              itemCount: commentList
-                                  .length, // Set the number of items in the list
+                              itemCount: commentList.length,
                               itemBuilder: (BuildContext context, int index) {
-                                final commentData = commentList[
-                                    index]; // Retrieve the UserData object for the current index
+                                final commentData = commentList[index];
+                                getStar(int.parse(commentData.star));
                                 return Card(
                                   margin: EdgeInsets.symmetric(
                                       vertical: 8, horizontal: 0),
@@ -325,13 +333,39 @@ class UserSuspendState extends State<UserSuspend> {
                                               ),
                                               Padding(
                                                 padding: EdgeInsets.fromLTRB(
+                                                    0, 5, 0, 0),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    for (int i = 1;
+                                                        i <= fullStars;
+                                                        i++)
+                                                      Icon(Icons.star,
+                                                          color: Colors.yellow,
+                                                          size: 30),
+                                                    if (hasHalfStar)
+                                                      Icon(Icons.star_half,
+                                                          color: Colors.yellow,
+                                                          size: 30),
+                                                    for (int i = 1;
+                                                        i <= remainder;
+                                                        i++)
+                                                      Icon(Icons.star,
+                                                          color: Colors.grey,
+                                                          size: 30),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(
                                                     0, 4, 0, 0),
                                                 child: Text(
-                                                  commentData.content
-                                                      .toString(),
+                                                  commentData.content,
                                                   textAlign: TextAlign.start,
-                                                  maxLines: 2,
-                                                  overflow: TextOverflow.clip,
+                                                  maxLines: 4,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w400,
                                                     fontStyle: FontStyle.normal,

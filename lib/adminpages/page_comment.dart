@@ -13,6 +13,9 @@ class PageComment extends StatefulWidget {
 }
 
 List<CommentData> commentList = [];
+int fullStars = 0;
+bool hasHalfStar = false;
+int remainder = 0;
 
 class PageCommentState extends State<PageComment> {
   @override
@@ -48,153 +51,187 @@ class PageCommentState extends State<PageComment> {
     setState(() {});
   }
 
+  void getStar(int star) {
+    fullStars = star.floor(); //fullstar is the current star rounded down
+    hasHalfStar = star - fullStars >= 0.5;
+    remainder = (5 - star).round();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xffebebeb),
-        appBar: AppBar(
-          elevation: 10,
-          centerTitle: false,
-          automaticallyImplyLeading: false,
-          backgroundColor: Color(0xffffffff),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.zero,
-          ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Text(
-                "Comment Database",
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 18,
-                  color: Color(0xff3a57e8),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => const MyLogin()),
-                      (Route<dynamic> route) => false);
-                },
-                child: Icon(
-                  Icons.logout,
-                  color: Color(0xff3a57e8),
-                  size: 24,
-                ),
-              ),
-            ],
-          ),
+      backgroundColor: Color(0xffebebeb),
+      appBar: AppBar(
+        elevation: 10,
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        backgroundColor: Color(0xffffffff),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero,
         ),
-        body: SingleChildScrollView(
-            child: Column(children: [
-          ListView.builder(
-            scrollDirection: Axis.vertical,
-            padding: EdgeInsets.all(8),
-            shrinkWrap: true,
-            physics: ClampingScrollPhysics(),
-            itemCount:
-                commentList.length, // Set the number of items in the list
-            itemBuilder: (BuildContext context, int index) {
-              final commentData = commentList[
-                  index]; // Retrieve the UserData object for the current index
-              return Card(
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
-                color: Color(0xffffffff),
-                shadowColor: Color(0xff3a57e8),
-                elevation: 3,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  commentData.foodname,
-                                  textAlign: TextAlign.start,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.clip,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 16,
-                                    color: Color(0xff3a57e8),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                                  child: Text(
-                                    'Created by: ${commentData.createdby}',
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Text(
+              "Comment Database",
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontStyle: FontStyle.normal,
+                fontSize: 18,
+                color: Color(0xff3a57e8),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const MyLogin()),
+                    (Route<dynamic> route) => false);
+              },
+              child: Icon(
+                Icons.logout,
+                color: Color(0xff3a57e8),
+                size: 24,
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ListView.builder(
+              scrollDirection: Axis.vertical,
+              padding: EdgeInsets.all(8),
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+              itemCount: commentList.length,
+              itemBuilder: (BuildContext context, int index) {
+                final commentData = commentList[index];
+                getStar(int.parse(commentData.star));
+                return Card(
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+                  color: Color(0xffffffff),
+                  shadowColor: Color(0xff3a57e8),
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    commentData.foodname,
                                     textAlign: TextAlign.start,
-                                    maxLines: 2,
+                                    maxLines: 1,
                                     overflow: TextOverflow.clip,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontStyle: FontStyle.normal,
-                                      fontSize: 14,
-                                      color: Color(0xff000000),
+                                      fontSize: 16,
+                                      color: Color(0xff3a57e8),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                                  child: Text(
-                                    commentData.content.toString(),
+                                  Text(
+                                    'Created By: ${commentData.createdby}',
                                     textAlign: TextAlign.start,
-                                    maxLines: 2,
+                                    maxLines: 1,
                                     overflow: TextOverflow.clip,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontStyle: FontStyle.normal,
-                                      fontSize: 12,
-                                      color: Color(0xff000000),
+                                      fontSize: 14,
+                                      color: Color(0xff3a57e8),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            InkWell(
-                              onTap: () {
-                                // Navigator.of(context).pushAndRemoveUntil(
-                                //     MaterialPageRoute(
-                                //         builder: (context) => const MyLogin()),
-                                //     (Route<dynamic> route) => false);
-                                deleteComment(commentData.content);
-                              },
-                              child: Icon(
-                                Icons.close_sharp,
-                                color: Color(0xff3a57e8),
-                                size: 30,
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        for (int i = 1; i <= fullStars; i++)
+                                          Icon(Icons.star,
+                                              color: Colors.yellow, size: 30),
+                                        if (hasHalfStar)
+                                          Icon(Icons.star_half,
+                                              color: Colors.yellow, size: 30),
+                                        for (int i = 1; i <= remainder; i++)
+                                          Icon(Icons.star,
+                                              color: Colors.grey, size: 30),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            constraints: BoxConstraints(
+                                              maxWidth: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  80,
+                                            ),
+                                            child: Text(
+                                              commentData.content,
+                                              textAlign: TextAlign.start,
+                                              maxLines: 5,
+                                              overflow: TextOverflow.clip,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: 14,
+                                                color: Color(0xff000000),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
+                              InkWell(
+                                onTap: () {
+                                  deleteComment(commentData.content);
+                                },
+                                child: Icon(
+                                  Icons.close_sharp,
+                                  color: Color(0xff3a57e8),
+                                  size: 30,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ])));
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
