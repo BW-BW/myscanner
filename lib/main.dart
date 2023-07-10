@@ -3,6 +3,7 @@ import 'package:myscanner/adminpages/adminmain.dart';
 import 'package:myscanner/global/loading.dart';
 import 'package:myscanner/register.dart';
 import 'package:myscanner/userpages/page_account.dart';
+import 'package:myscanner/userpages/page_tutorial.dart';
 import 'package:myscanner/userpages/usermain.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:myscanner/global/global.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         '/register': (context) => const MyRegister(),
         '/login': (context) => const MyLogin(),
         '/mypage4': (context) => MyPage4(),
+        '/intro': (context) => const PageIntro(),
       },
       title: 'Login Screen',
       theme: ThemeData(
@@ -146,7 +148,13 @@ class MyLoginState extends State<MyLogin> {
       // print(currentUrlGlobal);
 
       // ignore_for_file: use_build_context_synchronously
-      Navigator.of(context).pushNamedAndRemoveUntil("/user", (route) => false);
+      if (data[0]['intro'] == false) {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil("/user", (route) => false);
+      } else {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil("/intro", (route) => false);
+      }
     }
   }
 
