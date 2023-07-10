@@ -99,11 +99,9 @@ class PageReviewState extends State<PageReview> {
               padding: EdgeInsets.all(8),
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
-              itemCount:
-                  productList.length, // Set the number of items in the list
+              itemCount: productList.length,
               itemBuilder: (BuildContext context, int index) {
-                final productData = productList[
-                    index]; // Retrieve the UserData object for the current index
+                final productData = productList[index];
                 return Card(
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
                   color: Color(0xffffffff),
@@ -131,10 +129,7 @@ class PageReviewState extends State<PageReview> {
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(12.0),
                               bottomLeft: Radius.circular(12.0)),
-                          child:
-
-                              ///***If you have exported images you must have to copy those images in assets/images directory.
-                              Image(
+                          child: Image(
                             image: NetworkImage(productData.imgurl),
                             height: 130,
                             width: 100,

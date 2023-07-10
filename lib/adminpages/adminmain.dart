@@ -49,7 +49,7 @@ class AdminPageState extends State<AdminPage> {
               backgroundColor: Color.fromARGB(255, 2, 1, 0)),
         ],
         currentIndex: _selectedIndex,
-        unselectedItemColor: Color.fromARGB(159, 55, 224, 204),
+        unselectedItemColor: const Color.fromARGB(159, 55, 224, 204),
         selectedItemColor: const Color(0xff3a57e8),
         onTap: _onItemTapped,
       ),

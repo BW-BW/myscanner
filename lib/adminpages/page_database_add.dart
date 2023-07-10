@@ -1,4 +1,4 @@
-// ignore_for_file: sort_child_properties_last
+// ignore_for_file: sort_child_properties_last, use_build_context_synchronously, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:flutter/material.dart';
 import 'package:myscanner/global/global.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -13,9 +13,6 @@ class AddProductAdmin extends StatefulWidget {
 }
 
 class AddProductAdminState extends State<AddProductAdmin> {
-  // static String supabaseURL = "https://hdjtokqgbkxfbgvvrbvw.supabase.co";
-  // static String supabaseKey =
-  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkanRva3FnYmt4ZmJndnZyYnZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI4Mzk5OTIsImV4cCI6MTk5ODQxNTk5Mn0.J5zMy7DRe4CmRd5p31iOcxITF_3TEcmMT3qdAPhavwY";
   final SupabaseClient client = SupabaseClient(supabaseURL, supabaseKey);
 
   int barcode = 0;
@@ -78,20 +75,6 @@ class AddProductAdminState extends State<AddProductAdmin> {
           );
         },
       );
-      print(barcode);
-      print(name);
-      print(netto);
-      print(calorie);
-      print(fat);
-      print(protein);
-      print(carbo);
-      print(sodium);
-      print(sugar);
-      print(details);
-      print(imgurl);
-      print(vegan);
-      print(glutenfree);
-      print(halal);
     } else {
       await Supabase.instance.client.from('detailsTable').insert({
         'barcode': barcode,
@@ -149,13 +132,6 @@ class AddProductAdminState extends State<AddProductAdmin> {
       final String publicUrl = client.storage
           .from('product')
           .getPublicUrl(pickedFile.files.first.name);
-      print(publicUrl);
-
-      // await Supabase.instance.client
-      //     .from('userCreds')
-      //     .update({'profile_url': publicUrl})
-      //     .eq('username', currentEmailGlobal)
-      //     .eq('password', currentPasswordGlobal);
 
       currentUrlReviewGlobal = publicUrl;
       imgurl = publicUrl;
@@ -178,12 +154,9 @@ class AddProductAdminState extends State<AddProductAdmin> {
           );
         },
       );
-      // Navigator.of(context)
-      //     .pushNamedAndRemoveUntil('/mypage4', (route) => false);
     }
   }
 
-  // ignore_for_file: unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -430,8 +403,7 @@ class AddProductAdminState extends State<AddProductAdmin> {
                         FilteringTextInputFormatter.allow(
                             RegExp(r'^\d+\.?\d{0,2}')),
                       ],
-                      keyboardType: TextInputType
-                          .number, // Set the keyboard type to number
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         disabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -494,8 +466,7 @@ class AddProductAdminState extends State<AddProductAdmin> {
                         FilteringTextInputFormatter.allow(
                             RegExp(r'^\d+\.?\d{0,2}')),
                       ],
-                      keyboardType: TextInputType
-                          .number, // Set the keyboard type to number
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         disabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -922,7 +893,6 @@ class AddProductAdminState extends State<AddProductAdmin> {
                         padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                         child: Text("Halal")),
                     DropdownButtonFormField<String>(
-                      //controller: _fullNameController,
                       value: halal.toString(),
                       decoration: InputDecoration(
                         disabledBorder: OutlineInputBorder(
@@ -974,7 +944,6 @@ class AddProductAdminState extends State<AddProductAdmin> {
                         padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                         child: Text("Vegan")),
                     DropdownButtonFormField<String>(
-                      //controller: _fullNameController,
                       value: vegan,
                       decoration: InputDecoration(
                         disabledBorder: OutlineInputBorder(
@@ -1026,7 +995,6 @@ class AddProductAdminState extends State<AddProductAdmin> {
                         padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                         child: Text("Glutten Free")),
                     DropdownButtonFormField<String>(
-                      //controller: _fullNameController,
                       value: glutenfree,
                       decoration: InputDecoration(
                         disabledBorder: OutlineInputBorder(

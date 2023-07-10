@@ -1,4 +1,4 @@
-// ignore_for_file: sort_child_properties_last, use_build_context_synchronously
+// ignore_for_file: sort_child_properties_last, use_build_context_synchronously, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -100,8 +100,6 @@ class MyRegisterState extends State<MyRegister> {
     }
   }
 
-  ///File download from FlutterViz- Drag and drop a tools. For more details visit https://flutterviz.io/
-  // ignore_for_file: unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -214,7 +212,6 @@ class MyRegisterState extends State<MyRegister> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: DropdownButtonFormField<String>(
-                  //controller: _fullNameController,
                   value: _gender,
                   decoration: InputDecoration(
                     disabledBorder: OutlineInputBorder(
@@ -275,11 +272,9 @@ class MyRegisterState extends State<MyRegister> {
                     color: Color(0xff000000),
                   ),
                   inputFormatters: [
-                    FilteringTextInputFormatter
-                        .digitsOnly, // Allow only numeric input
+                    FilteringTextInputFormatter.digitsOnly,
                   ],
-                  keyboardType:
-                      TextInputType.number, // Set the keyboard type to number
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),

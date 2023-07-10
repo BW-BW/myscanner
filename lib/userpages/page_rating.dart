@@ -89,8 +89,7 @@ class RatingScreenState extends State<RatingScreen> {
               padding: EdgeInsets.all(8),
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
-              itemCount:
-                  commentList.length, // Set the number of items in the list
+              itemCount: commentList.length,
               itemBuilder: (BuildContext context, int index) {
                 final commentData = commentList[index];
                 getStar(int.parse(commentData.star));

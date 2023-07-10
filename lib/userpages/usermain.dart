@@ -13,10 +13,10 @@ class MyHomePage extends StatefulWidget {
 class MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   static List<Widget> pageszz = <Widget>[
-    const MyPage1(),
-    const MyPage2(),
-    const MyPage3(),
-    const MyPage4(),
+    const PageSearch(),
+    const PageHistory(),
+    const PageScan(),
+    const PageProfile(),
   ];
 
   void _onItemTapped(int index) {
@@ -49,7 +49,7 @@ class MyHomePageState extends State<MyHomePage> {
               backgroundColor: Color.fromARGB(255, 2, 1, 0)),
         ],
         currentIndex: _selectedIndex,
-        unselectedItemColor: Color.fromARGB(159, 55, 224, 204),
+        unselectedItemColor: const Color.fromARGB(159, 55, 224, 204),
         selectedItemColor: const Color(0xff3a57e8),
         onTap: _onItemTapped,
       ),

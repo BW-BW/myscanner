@@ -8,7 +8,7 @@ import 'package:myscanner/userpages/usermain.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:myscanner/global/global.dart';
 
-// ignore_for_file: unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -27,12 +27,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        //'/': (context) => MyLogin(),
         '/admin': (context) => const AdminPage(),
         '/user': (context) => const MyHomePage(),
         '/register': (context) => const MyRegister(),
         '/login': (context) => const MyLogin(),
-        '/mypage4': (context) => MyPage4(),
+        '/mypage4': (context) => PageProfile(),
         '/intro': (context) => const PageIntro(),
       },
       title: 'Login Screen',
@@ -91,7 +90,6 @@ class MyLoginState extends State<MyLogin> {
     if (_email == 'a' && _password == 'a') {
       Navigator.of(context).pushNamedAndRemoveUntil("/admin", (route) => false);
     } else if (data.isEmpty) {
-      //print('data not found');
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -130,7 +128,6 @@ class MyLoginState extends State<MyLogin> {
         },
       );
     } else {
-      print(data);
       updateAllGlobal(
           _email,
           _password,
@@ -139,15 +136,7 @@ class MyLoginState extends State<MyLogin> {
           data[0]['age'].toString(),
           data[0]['profile_url'],
           data[0]['id'].toString());
-      // print(currentEmailGlobal);
-      // print('asdas');
-      // print(currentPasswordGlobal);
-      // print(currentNameGlobal);
-      // print(currentGenderGlobal);
-      // print(currentAgeGlobal);
-      // print(currentUrlGlobal);
 
-      // ignore_for_file: use_build_context_synchronously
       if (data[0]['intro'] == false) {
         Navigator.of(context)
             .pushNamedAndRemoveUntil("/user", (route) => false);
@@ -196,7 +185,6 @@ class MyLoginState extends State<MyLogin> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    ///***If you have exported images you must have to copy those images in assets/images directory.
                     Image.asset(
                       "assets/login.png",
                       height: 200,
@@ -320,6 +308,9 @@ class MyLoginState extends State<MyLogin> {
                           borderRadius: BorderRadius.circular(16.0),
                         ),
                         padding: EdgeInsets.all(16),
+                        textColor: Color(0xffffffff),
+                        height: 40,
+                        minWidth: MediaQuery.of(context).size.width,
                         child: Text(
                           "Login",
                           style: TextStyle(
@@ -328,9 +319,6 @@ class MyLoginState extends State<MyLogin> {
                             fontStyle: FontStyle.normal,
                           ),
                         ),
-                        textColor: Color(0xffffffff),
-                        height: 40,
-                        minWidth: MediaQuery.of(context).size.width,
                       ),
                     ),
                     Padding(

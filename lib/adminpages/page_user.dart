@@ -90,10 +90,9 @@ class PageUserState extends State<PageUser> {
               padding: EdgeInsets.all(8),
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
-              itemCount: userList.length, // Set the number of items in the list
+              itemCount: userList.length,
               itemBuilder: (BuildContext context, int index) {
-                final userData = userList[
-                    index]; // Retrieve the UserData object for the current index
+                final userData = userList[index];
                 return Card(
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
                   color: Color(0xffffffff),
@@ -120,10 +119,7 @@ class PageUserState extends State<PageUser> {
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(12.0),
                               bottomLeft: Radius.circular(12.0)),
-                          child:
-
-                              ///***If you have exported images you must have to copy those images in assets/images directory.
-                              Image(
+                          child: Image(
                             image: NetworkImage(userData.profileurl),
                             height: 130,
                             width: 100,

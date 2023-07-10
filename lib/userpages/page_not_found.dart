@@ -42,7 +42,6 @@ class PageNotFoundState extends State<PageNotFound> {
         leading: GestureDetector(
           onTap: () {
             Navigator.of(context).pop();
-            //Navigator.of(context).pop();
           },
           child: Icon(
             Icons.arrow_back,

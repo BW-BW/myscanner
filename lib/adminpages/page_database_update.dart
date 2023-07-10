@@ -22,9 +22,6 @@ class UpdatePageState extends State<UpdatePage> {
     setText();
   }
 
-  // static String supabaseURL = "https://hdjtokqgbkxfbgvvrbvw.supabase.co";
-  // static String supabaseKey =
-  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkanRva3FnYmt4ZmJndnZyYnZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI4Mzk5OTIsImV4cCI6MTk5ODQxNTk5Mn0.J5zMy7DRe4CmRd5p31iOcxITF_3TEcmMT3qdAPhavwY";
   final SupabaseClient client = SupabaseClient(supabaseURL, supabaseKey);
 
   late int barcode = widget.productData.barcode;
@@ -97,20 +94,6 @@ class UpdatePageState extends State<UpdatePage> {
           );
         },
       );
-      print(barcode);
-      print(name);
-      print(netto);
-      print(calorie);
-      print(fat);
-      print(protein);
-      print(carbo);
-      print(sodium);
-      print(sugar);
-      print(details);
-      print(imgurl);
-      print(vegan);
-      print(glutenfree);
-      print(halal);
     } else {
       await Supabase.instance.client.from('detailsTable').update({
         'name': name,
@@ -352,8 +335,7 @@ class UpdatePageState extends State<UpdatePage> {
                         FilteringTextInputFormatter.allow(
                             RegExp(r'^\d+\.?\d{0,2}')),
                       ],
-                      keyboardType: TextInputType
-                          .number, // Set the keyboard type to number
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         disabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -780,7 +762,6 @@ class UpdatePageState extends State<UpdatePage> {
                         padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                         child: Text("Halal")),
                     DropdownButtonFormField<String>(
-                      //controller: _fullNameController,
                       value: halal.toString(),
                       decoration: InputDecoration(
                         disabledBorder: OutlineInputBorder(
@@ -832,7 +813,6 @@ class UpdatePageState extends State<UpdatePage> {
                         padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                         child: Text("Vegan")),
                     DropdownButtonFormField<String>(
-                      //controller: _fullNameController,
                       value: vegan.toString(),
                       decoration: InputDecoration(
                         disabledBorder: OutlineInputBorder(
@@ -884,7 +864,6 @@ class UpdatePageState extends State<UpdatePage> {
                         padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                         child: Text("Glutten Free")),
                     DropdownButtonFormField<String>(
-                      //controller: _fullNameController,
                       value: glutenfree.toString(),
                       decoration: InputDecoration(
                         disabledBorder: OutlineInputBorder(

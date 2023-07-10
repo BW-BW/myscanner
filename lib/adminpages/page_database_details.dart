@@ -58,8 +58,6 @@ class DetailsScreenAdminState extends State<DetailsScreenAdmin> {
   List<String> splitIngredients() {
     var string = widget.productData.ingredients;
     final splitted = string.split(',');
-    print('object kontolll');
-    print(splitted);
     return splitted;
   }
 
@@ -75,8 +73,6 @@ class DetailsScreenAdminState extends State<DetailsScreenAdmin> {
               padding: const EdgeInsets.all(8.0),
               child: MaterialButton(
                 onPressed: () {
-                  print(choosenData);
-                  print('object');
                   Navigator.of(context).pop();
                 },
                 color: Color(0xff3a57e8),
@@ -662,7 +658,6 @@ class DetailsScreenAdminState extends State<DetailsScreenAdmin> {
                       padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
                       child: MaterialButton(
                         onPressed: () {
-                          //_showPopup(context);
                           popupConfirm(context);
                         },
                         color: Color(0xff3a57e8),

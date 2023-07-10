@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'package:myscanner/global/global.dart';
@@ -8,21 +8,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 
-// ignore_for_file: unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
-
-class MyPage4 extends StatefulWidget {
-  const MyPage4({super.key});
+class PageProfile extends StatefulWidget {
+  const PageProfile({super.key});
   @override
-  MyPage4State createState() => MyPage4State();
+  PageProfileState createState() => PageProfileState();
 }
 
-class MyPage4State extends State<MyPage4> {
-  // static String supabaseURL = "https://hdjtokqgbkxfbgvvrbvw.supabase.co";
-  // static String supabaseKey =
-  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkanRva3FnYmt4ZmJndnZyYnZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI4Mzk5OTIsImV4cCI6MTk5ODQxNTk5Mn0.J5zMy7DRe4CmRd5p31iOcxITF_3TEcmMT3qdAPhavwY";
+class PageProfileState extends State<PageProfile> {
   final SupabaseClient client = SupabaseClient(supabaseURL, supabaseKey);
-
-  //FlutterGifController controller= FlutterGifController(vsync: );
 
   void resetGlobal() {
     currentEmailGlobal = '';
@@ -58,7 +51,6 @@ class MyPage4State extends State<MyPage4> {
           .then((value) {});
       final String publicUrl =
           client.storage.from('user').getPublicUrl(pickedFile.files.first.name);
-      //print(publicUrl);
 
       await Supabase.instance.client
           .from('userTable')

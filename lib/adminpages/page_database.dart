@@ -20,7 +20,7 @@ class PageDatabaseState extends State<PageDatabase> {
   @override
   void initState() {
     super.initState();
-    searchData(''); // Call a method to fetch the data
+    searchData('');
   }
 
   void searchData(String search) async {
@@ -98,9 +98,6 @@ class PageDatabaseState extends State<PageDatabase> {
         focusColor: Color(0xff3a57e8),
         backgroundColor: Color(0xff3a57e8),
         onPressed: () {
-          // Perform some action when the button is pressed
-          print('FAB Pressed');
-          //redirect();
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const AddProductAdmin()),
@@ -167,11 +164,9 @@ class PageDatabaseState extends State<PageDatabase> {
                     padding: EdgeInsets.all(8),
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
-                    itemCount: productList
-                        .length, // Set the number of items in the list
+                    itemCount: productList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final productData = productList[
-                          index]; // Retrieve the UserData object for the current index
+                      final productData = productList[index];
                       return Card(
                         margin:
                             EdgeInsets.symmetric(vertical: 8, horizontal: 0),
@@ -200,10 +195,7 @@ class PageDatabaseState extends State<PageDatabase> {
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(12.0),
                                     bottomLeft: Radius.circular(12.0)),
-                                child:
-
-                                    ///***If you have exported images you must have to copy those images in assets/images directory.
-                                    Image(
+                                child: Image(
                                   image: NetworkImage(productData.imgurl),
                                   height: 130,
                                   width: 100,

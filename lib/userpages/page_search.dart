@@ -6,19 +6,19 @@ import 'package:myscanner/userpages/page_details.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../dataclass/product_data.dart';
 
-class MyPage1 extends StatefulWidget {
-  const MyPage1({super.key});
+class PageSearch extends StatefulWidget {
+  const PageSearch({super.key});
   @override
-  MyPage1State createState() => MyPage1State();
+  PageSearchState createState() => PageSearchState();
 }
 
 List<ProductData> productList = [];
 
-class MyPage1State extends State<MyPage1> {
+class PageSearchState extends State<PageSearch> {
   @override
   void initState() {
     super.initState();
-    searchData('12345'); // Call a method to fetch the data
+    searchData('12345');
   }
 
   void searchData(String search) async {
@@ -169,10 +169,7 @@ class MyPage1State extends State<MyPage1> {
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(12.0),
                                     bottomLeft: Radius.circular(12.0)),
-                                child:
-
-                                    ///***If you have exported images you must have to copy those images in assets/images directory.
-                                    Image(
+                                child: Image(
                                   image: NetworkImage(productData.imgurl),
                                   height: 130,
                                   width: 100,

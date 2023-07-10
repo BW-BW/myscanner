@@ -43,8 +43,6 @@ class ReviewScreenAdminState extends State<ReviewScreenAdmin> {
   List<String> splitIngredients() {
     var string = widget.productData.ingredients;
     final splitted = string.split(',');
-    print('object kontolll');
-    print(splitted);
     return splitted;
   }
 
@@ -89,8 +87,6 @@ class ReviewScreenAdminState extends State<ReviewScreenAdmin> {
               padding: const EdgeInsets.all(8.0),
               child: MaterialButton(
                 onPressed: () {
-                  print(choosenData);
-                  print('object');
                   Navigator.of(context).pop();
                 },
                 color: Color(0xff3a57e8),
@@ -145,8 +141,6 @@ class ReviewScreenAdminState extends State<ReviewScreenAdmin> {
               padding: const EdgeInsets.all(8.0),
               child: MaterialButton(
                 onPressed: () {
-                  print(choosenData);
-                  print('object');
                   Navigator.of(context).pop();
                 },
                 color: Color(0xff3a57e8),
@@ -166,11 +160,7 @@ class ReviewScreenAdminState extends State<ReviewScreenAdmin> {
               child: MaterialButton(
                 onPressed: () {
                   rejectReview();
-                  //Navigator.of(context).pop();
                   Navigator.of(context).pop();
-                  //Navigator.popUntil(context, (route) => route.isFirst);
-                  //Navigator.of(context)
-                  //  .pushNamedAndRemoveUntil("/admin", (route) => false);
                 },
                 color: Color(0xff3a57e8),
                 elevation: 0,

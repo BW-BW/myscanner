@@ -7,17 +7,17 @@ import '../dataclass/product_data.dart';
 
 List<ProductData> productList = [];
 
-class MyPage2 extends StatefulWidget {
-  const MyPage2({super.key});
+class PageHistory extends StatefulWidget {
+  const PageHistory({super.key});
   @override
-  MyPage2State createState() => MyPage2State();
+  PageHistoryState createState() => PageHistoryState();
 }
 
-class MyPage2State extends State<MyPage2> {
+class PageHistoryState extends State<PageHistory> {
   @override
   void initState() {
     super.initState();
-    fetchData(); // Call a method to fetch the data
+    fetchData();
   }
 
   void fetchData() async {
@@ -29,7 +29,6 @@ class MyPage2State extends State<MyPage2> {
         .select()
         .eq('user_id', currentIdGlobal);
 
-    print(detailsTable);
     final rowsDet = detailsTable as List<dynamic>;
     final rowsHist = historyTable as List<dynamic>;
 
@@ -98,7 +97,7 @@ class MyPage2State extends State<MyPage2> {
           ingredients: row['ingredients'] as String);
     }).toList();
 
-    setState(() {}); // Refresh the UI with the fetched data
+    setState(() {});
   }
 
 // ignore_for_file: unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
@@ -129,10 +128,9 @@ class MyPage2State extends State<MyPage2> {
         padding: EdgeInsets.all(8),
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),
-        itemCount: productList.length, // Set the number of items in the list
+        itemCount: productList.length,
         itemBuilder: (BuildContext context, int index) {
-          final productData = productList[
-              index]; // Retrieve the UserData object for the current index
+          final productData = productList[index];
           return Card(
             margin: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
             color: Color(0xffffffff),
@@ -166,10 +164,7 @@ class MyPage2State extends State<MyPage2> {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(12.0),
                         bottomLeft: Radius.circular(12.0)),
-                    child:
-
-                        ///***If you have exported images you must have to copy those images in assets/images directory.
-                        Image(
+                    child: Image(
                       image: NetworkImage(productData.imgurl),
                       height: 130,
                       width: 100,

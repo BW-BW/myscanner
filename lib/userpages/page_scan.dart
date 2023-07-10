@@ -9,14 +9,14 @@ import '../dataclass/product_data.dart';
 
 // ignore_for_file: use_build_context_synchronously, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-class MyPage3 extends StatefulWidget {
-  const MyPage3({super.key});
+class PageScan extends StatefulWidget {
+  const PageScan({super.key});
 
   @override
-  MyPage3State createState() => MyPage3State();
+  PageScanState createState() => PageScanState();
 }
 
-class MyPage3State extends State<MyPage3> {
+class PageScanState extends State<PageScan> {
   String _scanBarcode = 'Unknown';
 
   @override
