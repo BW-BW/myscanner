@@ -18,6 +18,7 @@ class PageIntroState extends State<PageIntro> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Color(0xffebebeb),
         appBar: AppBar(

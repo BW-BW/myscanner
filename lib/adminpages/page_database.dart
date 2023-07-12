@@ -228,7 +228,7 @@ class PageDatabaseState extends State<PageDatabase> {
                                         padding:
                                             EdgeInsets.fromLTRB(0, 4, 0, 0),
                                         child: Text(
-                                          productData.netto,
+                                          productData.details,
                                           textAlign: TextAlign.start,
                                           maxLines: 1,
                                           overflow: TextOverflow.clip,
@@ -236,31 +236,15 @@ class PageDatabaseState extends State<PageDatabase> {
                                             fontWeight: FontWeight.w400,
                                             fontStyle: FontStyle.normal,
                                             fontSize: 12,
-                                            color: Color(0xff7a7a7a),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(0, 4, 0, 0),
-                                        child: Text(
-                                          productData.barcode.toString(),
-                                          textAlign: TextAlign.start,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.clip,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 18,
                                             color: Color(0xff000000),
                                           ),
                                         ),
                                       ),
                                       Padding(
                                         padding:
-                                            EdgeInsets.fromLTRB(0, 8, 0, 0),
+                                            EdgeInsets.fromLTRB(0, 5, 0, 0),
                                         child: Text(
-                                          productData.details,
+                                          '${productData.netto} gram',
                                           textAlign: TextAlign.start,
                                           maxLines: 2,
                                           overflow: TextOverflow.clip,
@@ -268,10 +252,61 @@ class PageDatabaseState extends State<PageDatabase> {
                                             fontWeight: FontWeight.w400,
                                             fontStyle: FontStyle.normal,
                                             fontSize: 11,
-                                            color: Color(0xff000000),
+                                            color: Color(0xff7a7a7a),
                                           ),
                                         ),
                                       ),
+                                      if (productData.vegan)
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.fromLTRB(0, 8, 0, 0),
+                                          child: Text(
+                                            'Vegan',
+                                            textAlign: TextAlign.start,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.clip,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontStyle: FontStyle.normal,
+                                              fontSize: 11,
+                                              color: Color(0xff7a7a7a),
+                                            ),
+                                          ),
+                                        ),
+                                      if (productData.halal)
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.fromLTRB(0, 3, 0, 0),
+                                          child: Text(
+                                            'Halal',
+                                            textAlign: TextAlign.start,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.clip,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontStyle: FontStyle.normal,
+                                              fontSize: 11,
+                                              color: Color(0xff7a7a7a),
+                                            ),
+                                          ),
+                                        ),
+                                      if (productData.glutenfree)
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.fromLTRB(0, 3, 0, 0),
+                                          child: Text(
+                                            'Gluten Free',
+                                            textAlign: TextAlign.start,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.clip,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontStyle: FontStyle.normal,
+                                              fontSize: 11,
+                                              color: Color(0xff7a7a7a),
+                                            ),
+                                          ),
+                                        ),
                                     ],
                                   ),
                                 ),

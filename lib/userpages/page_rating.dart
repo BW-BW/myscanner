@@ -21,14 +21,17 @@ class RatingScreenState extends State<RatingScreen> {
   @override
   void initState() {
     super.initState();
-    getComment();
+    getComment('5');
   }
 
-  void getComment() async {
+  String selectedValue = '5';
+
+  void getComment(String star) async {
     final commentResponse = await Supabase.instance.client
         .from('commentTable')
         .select()
-        .eq('barcode', widget.barcodeData);
+        .eq('barcode', widget.barcodeData)
+        .eq('star', star);
 
     final rows = commentResponse as List<dynamic>;
 
@@ -84,6 +87,60 @@ class RatingScreenState extends State<RatingScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(120, 10, 0, 0),
+                  child: Text(
+                    'Sort by Star',
+                    textAlign: TextAlign.end,
+                    maxLines: 1,
+                    overflow: TextOverflow.clip,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 20,
+                      color: Color(0xff3a57e8),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: DropdownButtonFormField<String>(
+                      value: selectedValue,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide:
+                              BorderSide(color: Color(0xff3a57e8), width: 1),
+                        ),
+                        filled: true,
+                        fillColor: Color(0xffffffff),
+                        isDense: false,
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                        prefixIcon:
+                            Icon(Icons.star, color: Colors.yellow, size: 24),
+                      ),
+                      items: <String>['1', '2', '3', '4', '5']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (newValue) {
+                        getComment(newValue.toString());
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
             ListView.builder(
               scrollDirection: Axis.vertical,
               padding: EdgeInsets.all(8),
