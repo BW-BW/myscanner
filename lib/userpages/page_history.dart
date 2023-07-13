@@ -27,7 +27,8 @@ class PageHistoryState extends State<PageHistory> {
     final historyTable = await Supabase.instance.client
         .from('historyTable')
         .select()
-        .eq('user_id', currentIdGlobal);
+        .eq('user_id', currentIdGlobal)
+        .order('created_at');
 
     final rowsDet = detailsTable as List<dynamic>;
     final rowsHist = historyTable as List<dynamic>;
@@ -123,163 +124,169 @@ class PageHistoryState extends State<PageHistory> {
           ),
         ),
       ),
-      body: ListView.builder(
-        scrollDirection: Axis.vertical,
-        padding: EdgeInsets.all(8),
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
-        itemCount: productList.length,
-        itemBuilder: (BuildContext context, int index) {
-          final productData = productList[index];
-          return Card(
-            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
-            color: Color(0xffffffff),
-            shadowColor: Color(0xff000000),
-            elevation: 1,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoadingScreen(),
+      body: productList.isEmpty
+          ? Image.asset(
+              "assets/noData.png",
+              height: 400.0,
+              width: 400.0,
+            )
+          : ListView.builder(
+              scrollDirection: Axis.vertical,
+              padding: EdgeInsets.all(8),
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+              itemCount: productList.length,
+              itemBuilder: (BuildContext context, int index) {
+                final productData = productList[index];
+                return Card(
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+                  color: Color(0xffffffff),
+                  shadowColor: Color(0xff000000),
+                  elevation: 1,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
                   ),
-                );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        DetailsScreen(productData: productData),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoadingScreen(),
+                        ),
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DetailsScreen(productData: productData),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(12.0),
+                              bottomLeft: Radius.circular(12.0)),
+                          child: Image(
+                            image: NetworkImage(productData.imgurl),
+                            height: 130,
+                            width: 100,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Text(
+                                  productData.name,
+                                  textAlign: TextAlign.start,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.clip,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 16,
+                                    color: Color(0xff000000),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
+                                  child: Text(
+                                    productData.details,
+                                    textAlign: TextAlign.start,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.clip,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12,
+                                      color: Color(0xff000000),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                  child: Text(
+                                    '${productData.netto} gram',
+                                    textAlign: TextAlign.start,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.clip,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 11,
+                                      color: Color(0xff7a7a7a),
+                                    ),
+                                  ),
+                                ),
+                                if (productData.vegan)
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                                    child: Text(
+                                      'Vegan',
+                                      textAlign: TextAlign.start,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 11,
+                                        color: Color(0xff7a7a7a),
+                                      ),
+                                    ),
+                                  ),
+                                if (productData.halal)
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
+                                    child: Text(
+                                      'Halal',
+                                      textAlign: TextAlign.start,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 11,
+                                        color: Color(0xff7a7a7a),
+                                      ),
+                                    ),
+                                  ),
+                                if (productData.glutenfree)
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
+                                    child: Text(
+                                      'Gluten Free',
+                                      textAlign: TextAlign.start,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 11,
+                                        color: Color(0xff7a7a7a),
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12.0),
-                        bottomLeft: Radius.circular(12.0)),
-                    child: Image(
-                      image: NetworkImage(productData.imgurl),
-                      height: 130,
-                      width: 100,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            productData.name,
-                            textAlign: TextAlign.start,
-                            maxLines: 1,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 16,
-                              color: Color(0xff000000),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                            child: Text(
-                              productData.details,
-                              textAlign: TextAlign.start,
-                              maxLines: 1,
-                              overflow: TextOverflow.clip,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 12,
-                                color: Color(0xff000000),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                            child: Text(
-                              '${productData.netto} gram',
-                              textAlign: TextAlign.start,
-                              maxLines: 2,
-                              overflow: TextOverflow.clip,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 11,
-                                color: Color(0xff7a7a7a),
-                              ),
-                            ),
-                          ),
-                          if (productData.vegan)
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
-                              child: Text(
-                                'Vegan',
-                                textAlign: TextAlign.start,
-                                maxLines: 2,
-                                overflow: TextOverflow.clip,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 11,
-                                  color: Color(0xff7a7a7a),
-                                ),
-                              ),
-                            ),
-                          if (productData.halal)
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
-                              child: Text(
-                                'Halal',
-                                textAlign: TextAlign.start,
-                                maxLines: 2,
-                                overflow: TextOverflow.clip,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 11,
-                                  color: Color(0xff7a7a7a),
-                                ),
-                              ),
-                            ),
-                          if (productData.glutenfree)
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
-                              child: Text(
-                                'Gluten Free',
-                                textAlign: TextAlign.start,
-                                maxLines: 2,
-                                overflow: TextOverflow.clip,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 11,
-                                  color: Color(0xff7a7a7a),
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
             ),
-          );
-        },
-      ),
     );
   }
 }

@@ -5,7 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../dataclass/comment_data.dart';
 import '../dataclass/product_data.dart';
 
-// ignore_for_file: unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 List<CommentData> commentList = [];
 List<String> ingredientList = [];
@@ -33,15 +33,54 @@ class DetailsScreenState extends State<DetailsScreen> {
   }
 
   void addComment(String comment, String star) async {
-    await Supabase.instance.client.from('commentTable').insert({
-      'barcode': widget.productData.barcode,
-      'created_by': currentNameGlobal,
-      'comment': comment,
-      'food_name': widget.productData.name,
-      'star': star
-    });
+    if (comment == '') {
+      //Navigator.of(context).pop();
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Notice'),
+            content: Text('You cannot post an empty rating'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      await Supabase.instance.client.from('commentTable').insert({
+        'barcode': widget.productData.barcode,
+        'created_by': currentNameGlobal,
+        'comment': comment,
+        'food_name': widget.productData.name,
+        'star': star
+      });
 
-    getComment();
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Notice'),
+            content: Text('Your rating has successfully been posted'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+
+      getComment();
+    }
   }
 
   void getComment() async {
@@ -156,8 +195,8 @@ class DetailsScreenState extends State<DetailsScreen> {
                       alignment: Alignment.center,
                       child: MaterialButton(
                         onPressed: () {
-                          addComment(comment, selectedRating.toString());
                           Navigator.of(context).pop();
+                          addComment(comment, selectedRating.toString());
                         },
                         color: Color(0xff3a57e8),
                         elevation: 0,

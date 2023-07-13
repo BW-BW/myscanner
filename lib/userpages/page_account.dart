@@ -42,7 +42,11 @@ class PageProfileState extends State<PageProfile> {
       ),
     );
 
-    var pickedFile = await FilePicker.platform.pickFiles(allowMultiple: false);
+    var pickedFile = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png'],
+    );
     if (pickedFile != null) {
       final file = File(pickedFile.files.first.path!);
       await client.storage

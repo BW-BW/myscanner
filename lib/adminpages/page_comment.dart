@@ -42,11 +42,12 @@ class PageCommentState extends State<PageComment> {
     setState(() {});
   }
 
-  void deleteComment(String comment) async {
+  void deleteComment(String comment, String createdby) async {
     await Supabase.instance.client
         .from('commentTable')
         .delete()
-        .eq('comment', '$comment');
+        .eq('comment', comment)
+        .eq('created_by', createdby);
     getComment();
     setState(() {});
   }
@@ -55,6 +56,57 @@ class PageCommentState extends State<PageComment> {
     fullStars = star.floor(); //fullstar is the current star rounded down
     hasHalfStar = star - fullStars >= 0.5;
     remainder = (5 - star).round();
+  }
+
+  void popupConfirm(BuildContext context, String comment, String createdby) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Approve Confirmation'),
+          content: Text('Are you sure you want to delete this rating?'),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                color: Color(0xff3a57e8),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                padding: EdgeInsets.all(16),
+                textColor: Color(0xffffffff),
+                height: 45,
+                minWidth: MediaQuery.of(context).size.width,
+                child: Text('Cancel'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MaterialButton(
+                onPressed: () {
+                  deleteComment(comment, createdby);
+                  Navigator.of(context).pop();
+                },
+                color: Color(0xff3a57e8),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                padding: EdgeInsets.all(16),
+                textColor: Color(0xffffffff),
+                height: 45,
+                minWidth: MediaQuery.of(context).size.width,
+                child: Text('Yes'),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -75,7 +127,7 @@ class PageCommentState extends State<PageComment> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Text(
-              "Comment Database",
+              "Rating Database",
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontStyle: FontStyle.normal,
@@ -212,7 +264,8 @@ class PageCommentState extends State<PageComment> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  deleteComment(commentData.content);
+                                  popupConfirm(context, commentData.content,
+                                      commentData.createdby);
                                 },
                                 child: Icon(
                                   Icons.close_sharp,

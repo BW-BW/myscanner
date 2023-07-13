@@ -21,29 +21,48 @@ class RatingScreenState extends State<RatingScreen> {
   @override
   void initState() {
     super.initState();
-    getComment('5');
+    getComment('All');
   }
 
-  String selectedValue = '5';
+  String selectedValue = 'All';
 
   void getComment(String star) async {
-    final commentResponse = await Supabase.instance.client
-        .from('commentTable')
-        .select()
-        .eq('barcode', widget.barcodeData)
-        .eq('star', star);
+    if (star == 'All') {
+      final commentResponse = await Supabase.instance.client
+          .from('commentTable')
+          .select()
+          .eq('barcode', widget.barcodeData);
 
-    final rows = commentResponse as List<dynamic>;
+      final rows = commentResponse as List<dynamic>;
 
-    commentList = rows.map((row) {
-      return CommentData(
-          barcode: row['barcode'] as int,
-          createdby: row['created_by'] as String,
-          content: row['comment'] as String,
-          foodname: row['food_name'] as String,
-          star: row['star'] as String);
-    }).toList();
-    setState(() {});
+      commentList = rows.map((row) {
+        return CommentData(
+            barcode: row['barcode'] as int,
+            createdby: row['created_by'] as String,
+            content: row['comment'] as String,
+            foodname: row['food_name'] as String,
+            star: row['star'] as String);
+      }).toList();
+      setState(() {});
+    } else {
+      final commentResponse = await Supabase.instance.client
+          .from('commentTable')
+          .select()
+          .eq('barcode', widget.barcodeData)
+          .eq('star', star);
+
+      final rows = commentResponse as List<dynamic>;
+
+      commentList = rows.map((row) {
+        return CommentData(
+            barcode: row['barcode'] as int,
+            createdby: row['created_by'] as String,
+            content: row['comment'] as String,
+            foodname: row['food_name'] as String,
+            star: row['star'] as String);
+      }).toList();
+      setState(() {});
+    }
   }
 
   void getStar(int star) {
@@ -126,7 +145,7 @@ class RatingScreenState extends State<RatingScreen> {
                         prefixIcon:
                             Icon(Icons.star, color: Colors.yellow, size: 24),
                       ),
-                      items: <String>['1', '2', '3', '4', '5']
+                      items: <String>['All', '1', '2', '3', '4', '5']
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,

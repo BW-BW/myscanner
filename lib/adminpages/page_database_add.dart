@@ -13,6 +13,12 @@ class AddProductAdmin extends StatefulWidget {
 }
 
 class AddProductAdminState extends State<AddProductAdmin> {
+  @override
+  void initState() {
+    super.initState();
+    currentFileReviewGlobal = 'No File Choosen';
+  }
+
   final SupabaseClient client = SupabaseClient(supabaseURL, supabaseKey);
 
   int barcode = 0;
@@ -63,7 +69,7 @@ class AddProductAdminState extends State<AddProductAdmin> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Notice'),
-            content: Text('Please Fill Everything Before Signing Up'),
+            content: Text('Please Fill Everything Before Adding New Data'),
             actions: <Widget>[
               TextButton(
                 child: Text('OK'),
@@ -103,7 +109,7 @@ class AddProductAdminState extends State<AddProductAdmin> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Congrats'),
-          content: Text('You have successfully add data to database'),
+          content: Text('You have successfully added a new data'),
           actions: <Widget>[
             TextButton(
               child: Text('OK'),
@@ -122,7 +128,11 @@ class AddProductAdminState extends State<AddProductAdmin> {
   }
 
   void addPhoto() async {
-    var pickedFile = await FilePicker.platform.pickFiles(allowMultiple: false);
+    var pickedFile = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png'],
+    );
     if (pickedFile != null) {
       final file = File(pickedFile.files.first.path!);
       await client.storage
@@ -136,24 +146,6 @@ class AddProductAdminState extends State<AddProductAdmin> {
       currentUrlReviewGlobal = publicUrl;
       imgurl = publicUrl;
       currentFileReviewGlobal = pickedFile.files.first.name;
-
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Congratulations'),
-            content: Text('You have successfully upload picture'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
     }
   }
 
@@ -270,7 +262,7 @@ class AddProductAdminState extends State<AddProductAdmin> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
                         child: Text("Product Name")),
                     TextField(
                       controller: _nameController,
@@ -1108,7 +1100,7 @@ class AddProductAdminState extends State<AddProductAdmin> {
                   height: 45,
                   minWidth: MediaQuery.of(context).size.width,
                   child: Text(
-                    "Add For Review",
+                    "Add Directly to Database",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,

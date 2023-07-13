@@ -26,14 +26,14 @@ class UserSuspendState extends State<UserSuspend> {
     getComment();
   }
 
-  void suspend() async {
+  void suspend(String fullname, String username) async {
     await Supabase.instance.client
         .from('userTable')
         .update({
           'suspended': true,
         })
-        .eq('full_name', widget.userData.fullname)
-        .eq('username', widget.userData.username);
+        .eq('full_name', fullname)
+        .eq('username', username);
   }
 
   void getComment() async {
@@ -62,6 +62,57 @@ class UserSuspendState extends State<UserSuspend> {
     remainder = (5 - star).round();
   }
 
+  void popupConfirm(BuildContext context, String fullname, String username) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Approve Confirmation'),
+          content: Text('Are you sure you want to suspend this account?'),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                color: Color(0xff3a57e8),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                padding: EdgeInsets.all(16),
+                textColor: Color(0xffffffff),
+                height: 45,
+                minWidth: MediaQuery.of(context).size.width,
+                child: Text('Cancel'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MaterialButton(
+                onPressed: () {
+                  suspend(fullname, username);
+                  Navigator.of(context).pop();
+                },
+                color: Color(0xff3a57e8),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                padding: EdgeInsets.all(16),
+                textColor: Color(0xffffffff),
+                height: 45,
+                minWidth: MediaQuery.of(context).size.width,
+                child: Text('Suspend'),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,12 +126,22 @@ class UserSuspendState extends State<UserSuspend> {
           borderRadius: BorderRadius.zero,
         ),
         title: Text(
-          "Profile",
+          'Profile',
           style: TextStyle(
             fontWeight: FontWeight.w700,
             fontStyle: FontStyle.normal,
             fontSize: 20,
             color: Color(0xff000000),
+          ),
+        ),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: Color(0xff212435),
+            size: 24,
           ),
         ),
       ),
@@ -394,7 +455,10 @@ class UserSuspendState extends State<UserSuspend> {
             Align(
               alignment: Alignment.center,
               child: InkWell(
-                onTap: suspend,
+                onTap: () {
+                  popupConfirm(context, widget.userData.fullname,
+                      widget.userData.username);
+                },
                 child: Container(
                   alignment: Alignment.center,
                   margin: EdgeInsets.symmetric(vertical: 16, horizontal: 0),
@@ -415,52 +479,6 @@ class UserSuspendState extends State<UserSuspend> {
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                         child: Text(
                           "Suspend Account",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16,
-                            color: Color(0xff3a57e8),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.symmetric(vertical: 16, horizontal: 0),
-                  padding: EdgeInsets.all(0),
-                  width: 240,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Color(0x273a57e8),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(24.0),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.logout,
-                        color: Color(0xff3a57e8),
-                        size: 24,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
-                        child: Text(
-                          "Cancel",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.clip,
                           style: TextStyle(

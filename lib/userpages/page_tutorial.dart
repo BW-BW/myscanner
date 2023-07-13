@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:myscanner/global/global.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PageIntro extends StatefulWidget {
   const PageIntro({super.key});
@@ -13,6 +15,16 @@ class PageIntroState extends State<PageIntro> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void updateIntro() async {
+    await Supabase.instance.client
+        .from('userTable')
+        .update({
+          'intro': false,
+        })
+        .eq('username', currentEmailGlobal)
+        .eq('password', currentPasswordGlobal);
   }
 
   @override
@@ -106,6 +118,7 @@ class PageIntroState extends State<PageIntro> {
                 padding: EdgeInsets.fromLTRB(15, 16, 15, 20),
                 child: MaterialButton(
                   onPressed: () {
+                    updateIntro();
                     Navigator.of(context)
                         .pushNamedAndRemoveUntil("/user", (route) => false);
                   },

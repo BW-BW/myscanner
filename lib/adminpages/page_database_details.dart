@@ -67,7 +67,7 @@ class DetailsScreenAdminState extends State<DetailsScreenAdmin> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Delete Confirmation'),
-          content: Text('Are you sure you want to delete?'),
+          content: Text('Are you sure you want to delete the data?'),
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),

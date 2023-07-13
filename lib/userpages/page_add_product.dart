@@ -13,6 +13,12 @@ class AddProduct extends StatefulWidget {
 }
 
 class AddProductState extends State<AddProduct> {
+  @override
+  void initState() {
+    super.initState();
+    currentFileReviewGlobal = 'No File Choosen';
+  }
+
   final SupabaseClient client = SupabaseClient(supabaseURL, supabaseKey);
 
   int barcode = int.parse(currentScannedGlobal);
@@ -63,7 +69,7 @@ class AddProductState extends State<AddProduct> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Notice'),
-            content: Text('Please Fill Everything Before Signing Up'),
+            content: Text('Please Fill Everything Before Adding Food'),
             actions: <Widget>[
               TextButton(
                 child: Text('OK'),
@@ -120,7 +126,11 @@ class AddProductState extends State<AddProduct> {
   }
 
   void addPhoto() async {
-    var pickedFile = await FilePicker.platform.pickFiles(allowMultiple: false);
+    var pickedFile = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png'],
+    );
     if (pickedFile != null) {
       final file = File(pickedFile.files.first.path!);
       await client.storage
@@ -139,7 +149,7 @@ class AddProductState extends State<AddProduct> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Congratulations'),
+            title: Text('Success'),
             content: Text('You have successfully choose a photo'),
             actions: <Widget>[
               TextButton(
@@ -266,7 +276,7 @@ class AddProductState extends State<AddProduct> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        padding: EdgeInsets.fromLTRB(10, 20, 0, 0),
                         child: Text("Product Name")),
                     TextField(
                       controller: _nameController,

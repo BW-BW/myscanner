@@ -161,6 +161,9 @@ class ReviewScreenAdminState extends State<ReviewScreenAdmin> {
                 onPressed: () {
                   rejectReview();
                   Navigator.of(context).pop();
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil("/admin", (route) => false);
                 },
                 color: Color(0xff3a57e8),
                 elevation: 0,

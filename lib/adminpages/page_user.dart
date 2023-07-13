@@ -23,7 +23,10 @@ class PageUserState extends State<PageUser> {
   }
 
   void fetchData() async {
-    final response = await Supabase.instance.client.from('userTable').select();
+    final response = await Supabase.instance.client
+        .from('userTable')
+        .select()
+        .eq('suspended', false);
 
     final rows = response as List<dynamic>;
 

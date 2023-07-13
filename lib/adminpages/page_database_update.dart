@@ -82,7 +82,7 @@ class UpdatePageState extends State<UpdatePage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Notice'),
-            content: Text('Please Fill Everything Before Signing Up'),
+            content: Text('Please Fill Everything Before Updating Food'),
             actions: <Widget>[
               TextButton(
                 child: Text('OK'),
@@ -119,7 +119,7 @@ class UpdatePageState extends State<UpdatePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Congrats'),
+          title: Text('Success'),
           content: Text('Data Has Been Successfully Modified'),
           actions: <Widget>[
             TextButton(
