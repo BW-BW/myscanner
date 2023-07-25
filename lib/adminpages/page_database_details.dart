@@ -39,7 +39,8 @@ class DetailsScreenAdminState extends State<DetailsScreenAdmin> {
       sugar: widget.productData.sugar,
       details: widget.productData.details,
       imgurl: widget.productData.imgurl,
-      ingredients: widget.productData.ingredients);
+      ingredients: widget.productData.ingredients,
+      price: widget.productData.price);
 
   void deleteData() async {
     Navigator.push(
@@ -302,7 +303,28 @@ class DetailsScreenAdminState extends State<DetailsScreenAdmin> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Text(
+                            "RM ${widget.productData.price}",
+                            textAlign: TextAlign.left,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,

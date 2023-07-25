@@ -75,7 +75,8 @@ class PageScanState extends State<PageScan> {
           sugar: data[0]['sugar_g'],
           details: data[0]['details'],
           imgurl: data[0]['image_url'],
-          ingredients: data[0]['ingredients']);
+          ingredients: data[0]['ingredients'],
+          price: data[0]['price_RM']);
 
       final duplicate = await Supabase.instance.client
           .from('historyTable')

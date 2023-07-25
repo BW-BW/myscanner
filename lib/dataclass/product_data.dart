@@ -14,6 +14,7 @@ class ProductData {
   final String details;
   final String imgurl;
   final String ingredients;
+  final String price;
 
   ProductData(
       {required this.barcode,
@@ -30,5 +31,6 @@ class ProductData {
       required this.sugar,
       required this.details,
       required this.imgurl,
-      required this.ingredients});
+      required this.ingredients,
+      required this.price});
 }

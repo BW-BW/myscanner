@@ -44,7 +44,8 @@ class PageReviewState extends State<PageReview> {
           sugar: row['sugar_g'] as String,
           details: row['details'] as String,
           imgurl: row['image_url'] as String,
-          ingredients: row['ingredients'] as String);
+          ingredients: row['ingredients'] as String,
+          price: row['price_RM'] as String);
     }).toList();
 
     setState(() {});

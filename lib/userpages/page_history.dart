@@ -57,6 +57,7 @@ class PageHistoryState extends State<PageHistory> {
         final imageJoin = matchingTable['image_url'];
         final nettoJoin = matchingTable['netto'];
         final ingredientJoin = matchingTable['ingredients'];
+        final historyJoin = matchingTable['price_RM'];
 
         joinedData.add({
           'user_id': userId,
@@ -74,7 +75,8 @@ class PageHistoryState extends State<PageHistory> {
           'sugar_g': sugarJoin,
           'image_url': imageJoin,
           'netto': nettoJoin,
-          'ingredients': ingredientJoin
+          'ingredients': ingredientJoin,
+          'price_RM': historyJoin
         });
       }
     }
@@ -95,7 +97,8 @@ class PageHistoryState extends State<PageHistory> {
           sugar: row['sugar_g'] as String,
           details: row['details'] as String,
           imgurl: row['image_url'] as String,
-          ingredients: row['ingredients'] as String);
+          ingredients: row['ingredients'] as String,
+          price: row['price_RM'] as String);
     }).toList();
 
     setState(() {});

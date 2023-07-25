@@ -36,6 +36,7 @@ class AddProductAdminState extends State<AddProductAdmin> {
   String details = "";
   String imgurl = "";
   String ingredient = "";
+  String price = "";
 
   TextEditingController _barcodeController = TextEditingController();
   TextEditingController _nameController = TextEditingController();
@@ -49,6 +50,7 @@ class AddProductAdminState extends State<AddProductAdmin> {
   TextEditingController _detailsController = TextEditingController();
   TextEditingController _imgurlController = TextEditingController();
   TextEditingController _ingredientController = TextEditingController();
+  TextEditingController _priceController = TextEditingController();
 
   void addData() async {
     if (barcode == 0 ||
@@ -63,7 +65,8 @@ class AddProductAdminState extends State<AddProductAdmin> {
         details == "" ||
         imgurl == "" ||
         ingredient == "" ||
-        currentFileReviewGlobal == "") {
+        currentFileReviewGlobal == "" ||
+        price == "") {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -97,7 +100,8 @@ class AddProductAdminState extends State<AddProductAdmin> {
         'sugar_g': sugar,
         'details': details,
         'image_url': imgurl,
-        'ingredients': ingredient
+        'ingredients': ingredient,
+        'price_RM': price
       });
       successMessage();
     }
@@ -424,11 +428,74 @@ class AddProductAdminState extends State<AddProductAdmin> {
                         isDense: false,
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                        prefixIcon: Icon(Icons.work_outlined,
+                        prefixIcon: Icon(Icons.code,
                             color: Color(0xff212435), size: 24),
                       ),
                       onChanged: (value) {
                         barcode = int.parse(value);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        child: Text("Price")),
+                    TextField(
+                      controller: _priceController,
+                      obscureText: false,
+                      textAlign: TextAlign.start,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14,
+                        color: Color(0xff000000),
+                      ),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d{0,2}')),
+                      ],
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        disabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide:
+                              BorderSide(color: Color(0xff3a57e8), width: 1),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide:
+                              BorderSide(color: Color(0xff3a57e8), width: 1),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide:
+                              BorderSide(color: Color(0xff3a57e8), width: 1),
+                        ),
+                        hintText: "Add Price in RM",
+                        hintStyle: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14,
+                          color: Color(0xff000000),
+                        ),
+                        filled: true,
+                        fillColor: Color(0xffffffff),
+                        isDense: false,
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                        prefixIcon: Icon(Icons.attach_money,
+                            color: Color(0xff212435), size: 24),
+                      ),
+                      onChanged: (value) {
+                        price = value;
                       },
                     ),
                   ],
